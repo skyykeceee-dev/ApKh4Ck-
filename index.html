@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ApKh4Ck</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:monospace}
+body{
+    background:
+    radial-gradient(circle at 20% 20%, rgba(255,0,0,.18), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(150,0,255,.18), transparent 30%),
+    #000;
+    color:#fff;
+    overflow:hidden;
+}
+body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size:40px 40px;
+    animation:grid 20s linear infinite;
+    pointer-events:none;
+}
+@keyframes grid{
+    from{transform:translateY(0)}
+    to{transform:translateY(40px)}
+}
+
+/* ✅ POSISI SUDAH DITENGAHKAN */
+.page{
+display:none;
+height:100vh;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding-top:60px;
+}
+.active{display:flex}
+
+/* Password */
+.overlay,.popup{
+position:fixed;
+inset:0;
+background:#000b;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+}
+.popup{display:none}
+
+.card{
+background:#111;
+border:2px solid #fff;
+border-radius:15px;
+padding:25px;
+text-align:center;
+min-width:280px;
+}
+
+/* Judul */
+.title-wrap{
+position:relative;
+width:450px;
+height:120px;
+margin-top:0;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+border-radius:20px;
+}
+.title-wrap::before{
+content:"";
+position:absolute;
+inset:-2px;
+background:conic-gradient(
+transparent 0deg,
+transparent 330deg,
+red 350deg,
+transparent 360deg
+);
+animation:spin 2s linear infinite;
+}
+.title-wrap::after{
+content:"";
+position:absolute;
+inset:4px;
+background:#000;
+border-radius:16px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.neon-title{
+z-index:2;
+color:red;
+text-shadow:0 0 10px red,0 0 25px red,0 0 50px red;
+}
+
+/* Box */
+.menu{
+display:grid;
+grid-template-columns:repeat(2,200px);
+gap:35px;
+margin-top:50px;
+}
+.menu .box:nth-child(3){
+grid-column:1/span 2;
+justify-self:center;
+}
+.box{
+width:180px;
+height:180px;
+border:2px solid #fff;
+border-radius:15px;
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+user-select:none;
+box-shadow:0 0 15px #fff,0 0 35px #fff;
+animation:float 3s infinite ease-in-out;
+}
+@keyframes float{
+50%{transform:translateY(-8px)}
+}
+
+/* Input */
+.panel{
+margin-top:40px;
+border:1px solid #fff;
+padding:10px;
+display:flex;
+gap:10px;
+border-radius:10px;
+}
+input{
+background:#000;
+color:#fff;
+border:none;
+outline:none;
+width:220px;
+font-size:22px;
+}
+button{
+background:#000;
+color:#fff;
+border:1px solid #fff;
+padding:10px;
+cursor:pointer;
+}
+.keys{
+display:grid;
+grid-template-columns:repeat(3,70px);
+gap:10px;
+margin-top:20px;
+}
+
+.top{
+position:fixed;
+top:10px;
+left:10px;
+text-align:left;
+}
+.status{
+color:#00ff66;
+}
+
+/* Footer */
+.watermark{
+position:fixed;
+left:15px;
+bottom:15px;
+color:#b000ff;
+text-shadow:0 0 10px #b000ff;
+}
+
+.bug{
+position:fixed;
+right:15px;
+bottom:15px;
+color:#ffd700;
+font-style:italic;
+text-align:right;
+text-shadow:0 0 10px #ffd700;
+}
+
+.success{color:#00ff66}
+.error{color:red}
+</style>
+</head>
+
+<body>
+
+<div class="top">
+    <div id="trialInfo" style="color:#00ffff;"></div>
+    <div id="clock">00:00:00</div>
+    <div class="status">🟢 ONLINE</div>
+</div>
+
+<!-- Password -->
+<div id="lock" class="overlay">
+    <div class="card">
+        <h2>Masukkan Password</h2><br>
+        <input id="pass" type="password" placeholder="Password">
+        <br><br>
+        <button onclick="login()">LOGIN</button>
+        <p id="perr" class="error" style="margin-top:10px"></p>
+    </div>
+</div>
+
+<!-- Home -->
+<div id="homePage" class="page active">
+    <div class="title-wrap">
+        <h1 class="neon-title">☠ Welcome To Here ☠</h1>
+    </div>
+
+    <div class="menu">
+        <div class="box" onclick="showPage('KENON')">KENON</div>
+        <div class="box" onclick="showPage('SPAM')">SPAM</div>
+        <div class="box" onclick="showPage('BUG')">BUG</div>
+    </div>
+</div>
+
+<!-- Section -->
+<div id="section" class="page">
+    <h1 id="title" style="margin-top:30px"></h1>
+
+    <div class="panel">
+        <span>+62 :</span>
+        <input id="num" readonly>
+        <button onclick="accept()">Enter</button>
+    </div>
+
+    <div id="keys" class="keys"></div>
+    <button style="margin-top:20px" onclick="home()">HOME</button>
+</div>
+
+<!-- Popup -->
+<div id="pop" class="popup">
+    <div class="card">
+        <div id="icon" style="font-size:60px">✔</div>
+        <h2 id="msg">Accepted</h2><br>
+        <button onclick="closePop()">OK</button>
+    </div>
+</div>
+
+<div class="watermark">
+By : A. F. Ardiansyah<br>
+V 0.1<br>
+NevvKen0n
+</div>
+
+<div class="bug">
+Jika anda menemukan bug,<br>
+silahkan hubungi nomor ini:<br>
+0857-1879-4042
+</div>
+
+<script>
+const PERMANENT_PASSWORD = "pikri";
+const TRIAL_PASSWORD = "12345";
+const TRIAL_DURATION = 24 * 60 * 60 * 1000;
+
+function login(){
+    const input = pass.value;
+
+    if(input === PERMANENT_PASSWORD){
+        lock.style.display = "none";
+        return;
+    }
+
+    if(input === TRIAL_PASSWORD){
+        if(localStorage.getItem("trialUsed")){
+            perr.innerHTML = "✖ Trial sudah digunakan";
+            return;
+        }
+
+        localStorage.setItem("trialUsed", "true");
+        localStorage.setItem("trialStart", Date.now());
+        lock.style.display = "none";
+        return;
+    }
+
+    perr.innerHTML = "✖ PASSWORD SALAH";
+    pass.value = "";
+}
+
+pass.addEventListener("keydown", e=>{
+if(e.key==="Enter") login();
+});
+
+function updateTrialTimer(){
+    let start = localStorage.getItem("trialStart");
+
+    if(!start){
+        trialInfo.innerHTML = "";
+        return;
+    }
+
+    let startTime = parseInt(start);
+    let endTime = startTime + TRIAL_DURATION;
+    let now = Date.now();
+
+    let remaining = endTime - now;
+
+    if(remaining <= 0){
+        trialInfo.innerHTML = "Trial: Habis";
+        return;
+    }
+
+    let h = Math.floor(remaining / 3600000);
+    let m = Math.floor((remaining % 3600000) / 60000);
+    let s = Math.floor((remaining % 60000) / 1000);
+
+    let endDate = new Date(endTime).toLocaleString();
+
+    trialInfo.innerHTML = `
+    Trial: ${h}j ${m}m ${s}d<br>
+    Exp: ${endDate}
+    `;
+}
+
+function showPage(t){
+document.querySelectorAll(".page")
+.forEach(x=>x.classList.remove("active"));
+title.textContent = t;
+section.classList.add("active");
+}
+
+function home(){
+section.classList.remove("active");
+homePage.classList.add("active");
+num.value = "";
+}
+
+function formatNumber(raw){
+if(raw.length<=3) return raw;
+if(raw.length<=7)
+return raw.slice(0,3)+"-"+raw.slice(3);
+return raw.slice(0,3)+"-"+raw.slice(3,7)+"-"+raw.slice(7);
+}
+
+function addNum(n){
+let raw = num.value.replace(/-/g,'');
+if(raw.length >= 11) return;
+raw += n;
+num.value = formatNumber(raw);
+}
+
+for(let i=1;i<=9;i++){
+const b=document.createElement("button");
+b.textContent=i;
+b.onclick=()=>addNum(i);
+keys.appendChild(b);
+}
+
+let z=document.createElement("button");
+z.textContent="0";
+z.onclick=()=>addNum(0);
+keys.appendChild(z);
+
+let d=document.createElement("button");
+d.textContent="⌫";
+d.onclick=()=>{
+let raw=num.value.replace(/-/g,'');
+raw=raw.slice(0,-1);
+num.value=formatNumber(raw);
+};
+keys.appendChild(d);
+
+function accept(){
+const raw=num.value.replace(/-/g,'');
+
+if(raw.length!==11){
+icon.innerHTML="✖";
+icon.className="error";
+msg.innerHTML="Maaf Tidak Dapat Di proses";
+}else{
+icon.innerHTML="✔";
+icon.className="success";
+msg.innerHTML="Accepted";
+}
+
+pop.style.display="flex";
+}
+
+function closePop(){
+pop.style.display="none";
+if(msg.innerHTML!=="Accepted") home();
+}
+
+setInterval(()=>{
+clock.textContent=new Date().toLocaleTimeString();
+updateTrialTimer();
+},1000);
+</script>
+
+</body>
+</html>
