@@ -1,840 +1,98 @@
-<!DOCTYPE html>  <html>    
-<head><link rel="stylesheet"    
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">    
-<link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700&display=swap" rel="stylesheet">    
-</head>    
-<body></body><div class="login-box">    
-    <h1>Wᴇʟᴄᴏᴍᴇ Tᴏ Nᴇᴠᴀʜᴜʙ</h1>    
-    <p>Sign in to continue</p>  <input type="text" id="username" placeholder="Username">    
-<input type="password" id="password" placeholder="Password">  <button onclick="login()">Sɪɢɴ Iɴ</button>  </div>  <div id="loadingPage" style="display:none;">    
-    <h1>𝑝𝑙𝑒𝑎𝑠𝑒  𝑤𝑎𝑖𝑡. . .</h1>   
-    <div class="progress-container">    
-    <div id="progressBar"></div>    
-</div>    <p id="percent">0%</p>  </div><div id="dashboardPage" style="display:none;">  <div class="header">  <div class="left-header">    
-<i class="fa-solid fa-bars"></i>  <div class="greeting">    
-<span class="hai">ᕼᗩI,</span>    
-<span class="nama">ᑎᗴᐯᗩᕼᑌᗷ</span>    
-</div>    
-</div>  <div class="right-header">    
-<i class="fa-solid fa-headphones"></i>    
-<i class="fa-regular fa-circle-user"></i>    
-</div>  </div>  <div class="profile-card">  <div class="avatar">    
-    <img src="logo.png">
-</div>  <div>    
-<h2>𝗡𝗲𝘃𝗮𝗵𝘂𝗯 𝗠𝗼𝗱</h2>    
-<p class="role">ㄖ山几乇尺</p>    
-</div>  </div>  <div class="banner">    
-    <img src="banner.jpg">
-    
-    <div Class="blink"></div>    </div>
-    <!-- Menu -->
-<div class="menu">
-    <button onclick="openMenu1()">
-  <i class="fa-solid fa-cart-shopping"></i>
-  Buy File
-</button>
-    <button>
-  <i class="fa-solid fa-calendar-days"></i>
-  Event
-</button>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I Love You</title>
 
-<!-- Input Command -->
-<div class="section">
-    <h2>𝙄𝙣𝙥𝙪𝙩 𝘾𝙤𝙢𝙢𝙖𝙣𝙙 :</h2>
-
-    <div class="command-box">
-        <input class="input" type="text" placeholder="/info">
-       <div id="commandOutput"></div>
-        <button class="btn" onclick="runCommand()">
-            Cᴏᴍᴍᴀɴᴅ
-        </button>
-    </div>
-</div>
-</div>  <script>  
-function runCommand(){
-    let inputEl = document.querySelector(".input");
-    let output = document.getElementById("commandOutput");
-
-    if(!inputEl || !output){
-        return;
-    }
-
-    let input = inputEl.value.trim();
-
-    let message = "";
-
-    if(input === "/info"){
-        message = `
-        🙏🏻 Mohon maaf, untuk fitur 0.3 masih belum bisa stabil kami akan memperbaiki di 0.4 dan seterusnya<br><br>
-        💳 Tapi untuk jalur pembayaran melewati QR, sudah 100% terjamin,serta untuk fitur masih sedikit🙏🏻🙏🏻🙏🏻
-        `;
-    }
-    else if(input === ""){
-        message = "⚠️ Command masih kosong!";
-    }
-    else{
-        message = "❌ Command tidak dikenali!";
-    }
-
-    output.innerHTML = message;
-
-    // ⏱️ hilang setelah 5 detik
-    setTimeout(() => {
-        output.innerHTML = "";
-    }, 5000);
-}
-function openPopup(id){  
-  document.getElementById("popup").style.display = "flex";  
-  
-  let img = images[id]; // 🔥  
-  
-  document.getElementById("popupContent").innerHTML = `  
-      
-    <img src="${img}" alt="QR Pembayaran">  
-  
-    <p style="color:#fff; font-size:14px; text-align:left; margin-top:10px;">  
-     1. Setelah TF pada barcode tsb, kirim bukti TF ke nomor berikut: +62 0858-7631-1950
-        
-      
-    2. Tunggu admin membalas pesanmu dan memberikan file yang sesuai<br><br>  
-    
-    
-    3. Transaksi selesai.  
-    </p>  
-  
-  `;  
-}  
-let images = {
-  1: "barcode.jpg",
-  2: "barcode.jpg",
-  3: "barcode.jpg",
-  4: "barcode.jpg"
-};
-let img = "barcode.jpg";  
-  
-function closePopup(){  
-  document.getElementById("popup").style.display = "none";  
-}  
-  
-function toggleBuy(el){  
-  document.querySelectorAll('.buy-btn').forEach(btn=>{  
-    btn.style.display = 'none';  
-  });  
-  
-  let btn = el.querySelector('.buy-btn');  
-  btn.style.display = 'block';  
-}  
-function openMenu1(){  
-  
-  // tampilkan loading tengah  
-  let loading = document.getElementById("loadingMenu1");  
-  loading.style.display = "flex";  
-  
-  // tunggu 3 detik  
-  setTimeout(function(){  
-  
-    // sembunyikan loading  
-    loading.style.display = "none";  
-  
-    // pindah halaman  
-    document.getElementById("dashboardPage").style.display = "none";  
-    document.getElementById("menu1Page").style.display = "block";  
-  
-  },3000);  
-}  
-function backDashboard(){  
-  
-document.getElementById("menu1Page").style.display = "none";  
-  
-document.getElementById("dashboardPage").style.display = "block";  
-  
-}  
-  function login(){    
-    
-    let user = document.getElementById("username").value;    
-    let pass = document.getElementById("password").value;    
-    
-    if(user === "Nevahub" && pass === "22"){    
-    
-        document.querySelector(".login-box").style.display="none";    
-       document.getElementById("loadingPage").style.display="flex";    
-    
-        let progress = 0;    
-    
-        let interval = setInterval(function(){    
-    
-            progress++;    
-    
-            document.getElementById("progressBar").style.width =    
-            progress + "%";    
-    
-            document.getElementById("percent").innerHTML =    
-            progress + "%";    
-    
-            if(progress >= 100){    
-    
-    clearInterval(interval);    
-    
-    document.getElementById("loadingPage").style.display = "none";    
-    
-    document.getElementById("dashboardPage").style.display = "block";    
-    
-}    
-    
-        },50);    
-    
-    }else{    
-        alert("Username atau Password Salah!");    
-    }    
-}    
-</script>  <div id="menu1Page" style="display:none;">  <div style="  
-min-height:100vh;  
-padding:20px;  
-background:#0f0f1a;  
-">  <button onclick="backDashboard()">  
-← Kembali  
-</button>  <div style="  
-margin-top:20px;  
-padding:25px;  
-border-radius:25px;  
-background:#16213e;  
-text-align:center;  
-">  <h1 style="  
-color:#00e5ff;  
-font-size:40px;  
-">  
-NEVAHUB STORE  
-</h1>  <p style="color:white;">  
-Official Marketplace Nevahub  
-</p>  </div>  
-<div id="produkContainer">    <div class="produk" onclick="toggleBuy(this)">  
-    <h3>HOLO+GLOWAL TEMBUS</h3>  
-    <p>Harga : Rp35.000</p>  
-    <button class="buy-btn" onclick="event.stopPropagation(); openPopup(1)">BUY</button>  
-  </div>    <div class="produk" onclick="toggleBuy(this)">  
-    <h3>HOLO NEVAHUB</h3>  
-    <p>Harga : Rp25.000</p>  
-    <button class="buy-btn" onclick="event.stopPropagation(); openPopup(2)">BUY</button>  
-  </div>    <div class="produk" onclick="toggleBuy(this)">  
-    <h3>EASY DRAG HS</h3>  
-    <p>Harga : Rp15.000</p>  
-    <button class="buy-btn" onclick="event.stopPropagation(); openPopup(3)">BUY</button>  
-  </div>    <div class="produk" onclick="toggleBuy(this)">  
-    <h3>AIM DRAG SHOT</h3>  
-    <p>Harga : Rp10.000</p>  
-    <button class="buy-btn" onclick="event.stopPropagation(); openPopup(4)">BUY</button>  
-  </div>  </div>  </div>  </div>  </div>  
-<div id="popup" class="popup">  
-  <div class="popup-box">  
-    <div id="popupContent"></div>  
-    <br>  
-    <button onclick="closePopup()">OKE</button>  
-  </div>  
-</div>  
-</div>  
-<div id="loadingMenu1">  
-  <div class="loading-box">  
-    <div class="spinner"></div>  
-    <p>please wait...</p>  
-  </div>  
-</div>  
-
-</body>    
-</html>  
-<style>    
-body{    
-    margin:0;    
-    min-height:100vh;    
-    background:    
-    radial-gradient(    
-        circle,    
-        #250028,    
-        #050005    
-    );    
-}    
-.login-box{    
-    position:absolute;    
-    top:50%;    
-    left:50%;    
-    transform:translate(-50%,-50%);  width:350px;    
-padding:30px;    background:#120014;
-
-border-radius:25px;
-
-box-shadow:
-0 0 20px rgba(255,0,255,0.4);
-
-}
-*{
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Oxanium', sans-serif;
-}
+<style>
 body{
-font-family: 'Oxanium', sans-serif;
-}
-.profile-card h2{
-color:white;
-}
-.banner{
-margin:15px;
-height:200px;
-border-radius:20px;
-background:linear-gradient(135deg,#5a00a0,#23003b);
-display:flex;
-justify-content:center;
-align-items:center;
-overflow:hidden;
-}
-
-.pixel-eyes{
-display:flex;
-gap:50px;
-}
-
-.eye{
-font-size:18px;
-line-height:18px;
-color:#ffffff;
-font-family:monospace;
-
-text-shadow:
-0 0 10px #ff0000,
-0 0 20px #ff0000,
-0 0 35px #ff0000;
-
-animation:blink 4s infinite;
-}
-
-@keyframes blink{
-0%,92%,100%{
-transform:scaleY(1);
-}
-
-95%{
-transform:scaleY(0.15);
-}
-}
-#loadingPage{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-background:radial-gradient(
-circle,
-#4b0082,
-#220033,
-#050005
-);
-
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-
-color:#00ffff;
-font-family:'Orbitron',sans-serif;
-
-}
-
-.progress-container{
-width:300px;
-height:25px;
-
-border:3px solid #00ffff;
-
-margin-top:20px;
-
-}
-
-#progressBar{
-width:0%;
-height:100%;
-
-background:#00ffff;
-
-box-shadow:
-0 0 15px #00ffff,
-0 0 30px #00ffff;
-
-}
-
-#percent{
-margin-top:15px;
-font-size:28px;
-}
-.login-box h1{
-color:white;
-text-align:center;
-}
-
-.login-box p{
-color:#999;
-text-align:center;
-}
-input{
-width:100%;
-padding:15px;
-margin-top:15px;
-
-background:#050005;
-color:white;
-
-border:none;
-border-radius:15px;
-
-box-sizing:border-box;
-
-}
-button{
-width:100%;
-margin-top:20px;
-padding:15px;
-
-border:none;
-border-radius:20px;
-
-color:white;
-font-size:20px;
-
-background:linear-gradient(
-90deg,
-#ff00ff,
-#ff33cc
-);
-
-}
-button{
-box-shadow:
-0 0 10px #ff00ff,
-0 0 20px #ff00ff,
-0 0 40px #ff00ff;
-}
-.login-box{
-box-shadow:
-0 0 20px rgba(255,0,255,0.4);
-}
-
-.header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-
-padding:18px 20px;
-
-background:linear-gradient(180deg,#33104d,#26093f);
-
-box-shadow:0 0 15px rgba(255,0,255,.15);
-}
-
-.left-header{
-display:flex;
-align-items:center;
-gap:18px;
-}
-
-.left-header i{
-font-size:28px;
-color:#ffffff;
-}
-
-.greeting{
-display:flex;
-gap:10px;
-align-items:center;
-
-font-family:'Oxanium',sans-serif;
-
-font-size:34px;
-font-weight:600;
-
-letter-spacing:2px;
-
-color:#ffffff;
-
-text-shadow:
-0 0 5px rgba(255,255,255,.2),
-0 0 12px rgba(255,0,255,.3);
-}
-
-.hai{
-color:#ffffff;
-}
-
-.nama{
-color:#ffffff;
-}
-
-.right-header{
-display:flex;
-gap:20px;
-font-size:28px;
-}
-
-.right-header i{
-color:#d85dff;
-transition:.3s;
-}
-
-.right-header i:hover{
-text-shadow:0 0 12px #ff00ff;
-}
-
-.profile-card{
-margin:15px;
-padding:15px;
-background:#12001f;
-border-radius:20px;
-display:flex;
-align-items:center;
-box-shadow:0 0 15px rgba(255,0,255,.25);
-}
-
-.avatar{
-width:80px;
-height:80px;
-border-radius:50%;
-overflow:hidden;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-box-shadow:
-0 0 10px #ff00ff,
-0 0 20px #ff00ff,
-0 0 35px rgba(255,0,255,.5);
-
-}
-
-.avatar img{
-width:100%;
-height:100%;
-object-fit:cover;
-border-radius:50%;
-display:block;
-}
-
-.role{
-color:gold;
-}
-h2{
-color: #ff00ff;
-}
-
-.banner{
-position:relative;
-width:calc(100% - 30px);
-height:200px;
-margin:15px;
-overflow:hidden;
-border-radius:20px;
-
-box-shadow:
-0 0 15px rgba(255,0,100,.4),
-0 0 30px rgba(255,0,100,.2);
-
-}
-
-.banner img{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-
-animation:bannerMove 8s ease-in-out infinite alternate;
-
-}
-
-@keyframes bannerMove{
-
-0%{
-transform:scale(1) translateX(0) translateY(0);
-filter:brightness(100%);
-}
-
-25%{
-transform:scale(1.04) translateX(-8px) translateY(-2px);
-filter:brightness(110%);
-}
-
-50%{
-transform:scale(1.08) translateX(0) translateY(-5px);
-filter:brightness(115%);
-}
-
-75%{
-transform:scale(1.04) translateX(8px) translateY(-2px);
-filter:brightness(110%);
-}
-
-100%{
-transform:scale(1) translateX(0) translateY(0);
-filter:brightness(100%);
-}
-
-}
-
-.menu{
-display:flex;
-gap:15px;
-margin:15px;
-}
-
-.menu button{
-flex:1;
-height:140px;
-font-size:25px;
-}
-.section{
-margin:15px;
-}
-
-.command-box{
-display:flex;
-gap:10px;
-align-items:center;
-}
-
-.input{
-flex:1;
-padding:15px;
-background:#050005;
-border:none;
-border-radius:15px;
-color:white;
-}
-
-.btn{
-width:150px;
-margin-top:0;
-}
-.btn{
-flex:1;
-padding:15px;
-border:none;
-border-radius:15px;
-background:linear-gradient(90deg,#ff00ff,#a100ff);
-color:white;
-}
-h2{
-margin: 0 0 6px 0;
-}
-
-input{
-margin-top: 0;
-}
-.premium-login{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,.8);
-justify-content:center;
-align-items:center;
-z-index:9999;
-}
-
-.premium-box{
-width:90%;
-max-width:350px;
-background:#0d1530;
-padding:20px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 30px #00d9ff55;
-}
-
-.premium-box input{
-width:100%;
-padding:12px;
-margin:15px 0;
-border:none;
-border-radius:10px;
-}
-
-.premium-box button{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#ff00ff;
-color:white;
-}
-#produkContainer{
-margin-top:20px;
-}
-
-.produk{
-background: linear-gradient(
-135deg,
-rgba(0,150,255,0.15),
-rgba(0,255,255,0.1)
-);
-border-radius:20px;
-padding:20px;
-margin-bottom:15px;
-border:1px solid rgba(0,200,255,0.4);
-box-shadow:0 0 25px rgba(0,200,255,0.4);
-backdrop-filter: blur(12px);
-cursor:pointer;
-transition:0.3s;
-}
-.produk:hover{
-transform:scale(1.03);
-box-shadow:0 0 45px rgba(0,200,255,0.9);
-border:1px solid rgba(0,255,255,0.8);
-}
-.popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.7);
-display:none;
-justify-content:center;
-align-items:center;
-animation:fadeIn 0.3s;
-}
-
-.popup-box{
-background:rgba(0,0,0,0.6);
-padding:20px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 40px rgba(0,200,255,0.6);
-}
-
-.popup img{
-width:250px;
-border-radius:15px;
-margin-bottom:15px;
-}
-
-.popup button{
-padding:10px 20px;
-border:none;
-border-radius:10px;
-background:linear-gradient(90deg,#00eaff,#0066ff);
-color:#fff;
-font-weight:bold;
-}
-.produk h3{
-color:#00eaff;
-text-shadow:0 0 10px rgba(0,255,255,0.7);
-}
-
-.produk p{
-color:#b6f7ff;
-}
-#loadingMenu1{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-
-background:rgba(0,0,0,0.6);
-
-display:none;
-justify-content:center;
-align-items:center;
-
-z-index:9999;
-}
-
-.loading-box{
-background:#0f172a;
-padding:30px 40px;
-border-radius:20px;
-text-align:center;
-
-box-shadow:0 0 30px rgba(0,255,255,0.4);
-}
-
-.spinner{
-width:60px;
-height:60px;
-border:5px solid rgba(0,255,255,0.2);
-border-top:5px solid #00eaff;
-border-radius:50%;
-animation:spin 1s linear infinite;
-margin:auto;
-margin-bottom:15px;
-}
-
-@keyframes spin{
-0%{transform:rotate(0deg);}
-100%{transform:rotate(360deg);}
-}
-
-.loading-box p{
-color:#00eaff;
-font-size:18px;
-}
-.profile-card{
-    margin:15px;
-    padding:15px;
-    background:#12001f;
-    border-radius:20px;
-    display:flex;
-    align-items:center;
-    gap:15px;
-    box-shadow:0 0 15px rgba(255,0,255,.25);
-}
-
-.avatar{
-    width:80px;
-    height:80px;
-    border-radius:50%;
-    overflow:hidden;
-    flex-shrink:0;
-}
-
-.avatar img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.profile-info{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-}
-
-.profile-info h2{
-    color:white;
     margin:0;
-    font-size:22px;
+    background:#000;
+    overflow:hidden;
+    height:100vh;
 }
 
-.role{
-    color:gold;
-    margin-top:5px;
-    font-size:14px;
+#ui .love{
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-225px 0 0 -225px;
+}
+
+#ui .love_word{
+    color:#ea80b0;
+    font-size:1.4rem;
+    transform:translateY(-100%) rotateZ(-30deg);
+    font-family:Arial,sans-serif;
+    text-shadow:0 0 10px #fff;
     letter-spacing:2px;
 }
-.menu button i{
-    margin-right:8px;
+
+#ui .love:last-child .love_word{
+    color:#fff;
+    font-size:2rem;
+    text-shadow:0 0 15px #ea80b0;
 }
-.menu button i{
-    margin-right:8px;
+
+.love_horizontal{
+    animation:horizontal 10s infinite alternate ease-in-out;
 }
-#commandOutput{
-    margin-top:15px;
-    padding:10px;
-    border-radius:10px;
-    background:rgba(0,255,255,0.08);
-    color:#00eaff;
-    font-size:14px;
-    box-shadow:0 0 10px rgba(0,255,255,0.2);
+
+.love_vertical{
+    animation:vertical 20s infinite linear;
+}
+
+@keyframes horizontal{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(450px);
+    }
+}
+
+@keyframes vertical{
+    0%{transform:translateY(180px);}
+    10%{transform:translateY(45px);}
+    18%{transform:translateY(0);}
+    25%{transform:translateY(112px);}
+    32%{transform:translateY(0);}
+    50%{transform:translateY(180px);}
+    75%{transform:translateY(450px);}
+    100%{transform:translateY(180px);}
 }
 </style>
+</head>
+
+<body>
+
+<div id="ui"></div>
+
+<script>
+const ui = document.getElementById("ui");
+
+for(let i=1;i<=100;i++){
+
+    const love=document.createElement("div");
+    love.className="love";
+
+    love.innerHTML=`
+        <div class="love_horizontal">
+            <div class="love_vertical">
+                <div class="love_word">
+                    ${i===100 ? "I Love You" : "I Love You"}
+                </div>
+            </div>
+        </div>
+    `;
+
+    love.querySelector(".love_horizontal").style.animationDelay=`-${i*300}ms`;
+    love.querySelector(".love_vertical").style.animationDelay=`-${i*300}ms`;
+
+    ui.appendChild(love);
+}
+</script>
+
+</body>
+</html>
