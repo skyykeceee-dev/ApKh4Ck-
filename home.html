@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>I Love You Heart</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+body{margin:0;background:#000;overflow:hidden;font-family:Arial}
+#ui{position:absolute;inset:0;display:flex;justify-content:center;align-items:center}
+button{background:#ff4fa3;color:#fff;border:none;padding:16px 34px;border-radius:12px;font-size:22px;cursor:pointer;box-shadow:0 0 20px #ff4fa3}
+.word{position:absolute;color:#ff4fa3;font-weight:bold;text-shadow:0 0 8px #ff4fa3;transition:left 8s ease,top 8s ease}
+#msg{display:none;position:absolute;bottom:40px;width:100%;text-align:center;color:#ff4fa3;font-size:40px;text-shadow:0 0 20px #ff4fa3}
+</style></head><body>
+<div id="ui"><button id="go"><i class="fa-solid fa-right-to-bracket"></i> Tekan &gt;&lt;</button></div>
+<div id="msg">Happy 1st Anniversary ❤️</div>
+<script>
+const btn=document.getElementById('go');
+btn.onclick=()=>{
+ document.getElementById('ui').style.display='none';
+ const n=220,cx=innerWidth/2,cy=innerHeight/2,s=14;
+ for(let i=0;i<n;i++){
+   let d=document.createElement('div');
+   d.className='word'; d.textContent='I LOVE YOU';
+   d.style.left=Math.random()*innerWidth+'px';
+   d.style.top=Math.random()*innerHeight+'px';
+   document.body.appendChild(d);
+   const t=Math.PI*2*i/n;
+   const x=16*Math.pow(Math.sin(t),3);
+   const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);
+   setTimeout(()=>{
+      d.style.left=(cx+x*s*1.8-35)+'px';
+      d.style.top=(cy-y*s-8)+'px';
+   },30);
+   let a=0;
+   setInterval(()=>{
+      a+=0.06;
+      d.style.transform='translate('+Math.sin(a+i)*2+'px,'+Math.cos(a+i)*2+'px)';
+   },40);
+ }
+ setTimeout(()=>document.getElementById('msg').style.display='block',8200);
+};
+</script></body></html>
