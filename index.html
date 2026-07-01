@@ -1,98 +1,3765 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>I Love You</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>🧩 Let's Goo Puzzle</title>
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<style>
-body{
-    margin:0;
-    background:#000;
-    overflow:hidden;
-    height:100vh;
-}
+        body {
+            background: #0f0c29;
+            background: radial-gradient(ellipse at center, #1a1a3e 0%, #0f0c29 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding: 12px;
+            touch-action: manipulation;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background 0.4s ease, background-color 0.4s ease;
+        }
 
-#ui .love{
-    position:absolute;
-    top:50%;
-    left:50%;
-    margin:-225px 0 0 -225px;
-}
+        /* ===== TEMA WARNA ===== */
+        body.theme-dark {
+            background: #0f0c29;
+            background: radial-gradient(ellipse at center, #1a1a3e 0%, #0f0c29 100%);
+        }
+        body.theme-light {
+            background: #f0f2f5;
+            background: radial-gradient(ellipse at center, #e8ecf1 0%, #d5d9e0 100%);
+        }
+        body.theme-blue {
+            background: #0a1628;
+            background: radial-gradient(ellipse at center, #1a2a4a 0%, #0a1628 100%);
+        }
+        body.theme-green {
+            background: #0a1f0a;
+            background: radial-gradient(ellipse at center, #1a3a1a 0%, #0a1f0a 100%);
+        }
+        body.theme-rose {
+            background: #2a0a1a;
+            background: radial-gradient(ellipse at center, #4a1a2a 0%, #2a0a1a 100%);
+        }
 
-#ui .love_word{
-    color:#ea80b0;
-    font-size:1.4rem;
-    transform:translateY(-100%) rotateZ(-30deg);
-    font-family:Arial,sans-serif;
-    text-shadow:0 0 10px #fff;
-    letter-spacing:2px;
-}
+        body.theme-light #menu,
+        body.theme-light #game,
+        body.theme-light #settingsPage,
+        body.theme-light #tantanganPage,
+        body.theme-light #chapterGame {
+            background: rgba(255, 255, 255, 0.85);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        body.theme-light .menu-title,
+        body.theme-light .question-box .question-text,
+        body.theme-light #chapterGame .cg-header .cg-title,
+        body.theme-light #chapterGame .cg-question-box .q-text,
+        body.theme-light #tantanganPage .header .title,
+        body.theme-light .chapter-card .info .chapter-title,
+        body.theme-light #settingsPage .settings-header h2,
+        body.theme-light .settings-item .label {
+            color: #1a1a3e;
+        }
+        body.theme-light .menu-subtitle,
+        body.theme-light .menu-btn .right,
+        body.theme-light .menu-footer,
+        body.theme-light #tantanganPage .header .subtitle,
+        body.theme-light .chapter-card .info .chapter-desc,
+        body.theme-light #chapterGame .cg-progress,
+        body.theme-light #chapterGame .cg-question-box .q-number,
+        body.theme-light .settings-item .label .desc,
+        body.theme-light .settings-note {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        body.theme-light .menu-btn,
+        body.theme-light .chapter-card .chapter-btn {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.08);
+            color: #1a1a3e;
+        }
+        body.theme-light .chapter-card .chapter-btn.play {
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+            color: #fff;
+        }
+        body.theme-light .chapter-card .chapter-btn.locked {
+            opacity: 0.5;
+        }
+        body.theme-light .chapter-card {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+        body.theme-light .question-box,
+        body.theme-light #chapterGame .cg-question-box {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.06);
+        }
+        body.theme-light .question-box .clue-text {
+            color: rgba(0, 0, 0, 0.5);
+        }
+        body.theme-light .question-box .letter-slot {
+            color: #1a1a3e;
+            background: rgba(0, 0, 0, 0.04);
+            border-bottom-color: rgba(0, 0, 0, 0.2);
+        }
+        body.theme-light .question-box .letter-slot.hidden {
+            color: transparent;
+            border-bottom-color: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.02);
+        }
+        body.theme-light .input-row input,
+        body.theme-light #chapterGame .cg-question-box .input-row input {
+            color: #1a1a3e;
+            background: rgba(0, 0, 0, 0.04);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        body.theme-light .input-row input::placeholder {
+            color: rgba(0, 0, 0, 0.25);
+        }
+        body.theme-light .btn-back,
+        body.theme-light #chapterGame .cg-header .cg-back,
+        body.theme-light #settingsPage .settings-header .btn-close-settings,
+        body.theme-light #tantanganPage .header .btn-back-chapter {
+            color: #1a1a3e;
+            border-color: rgba(0, 0, 0, 0.08);
+            background: rgba(0, 0, 0, 0.04);
+        }
+        body.theme-light .hint-indicator {
+            border-color: rgba(0, 0, 0, 0.08);
+            background: rgba(0, 0, 0, 0.04);
+            color: #e67e22;
+        }
+        body.theme-light .hint-indicator .hint-count {
+            color: #1a1a3e;
+        }
+        body.theme-light .hint-indicator .hint-timer {
+            color: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.06);
+        }
+        body.theme-light .hearts {
+            background: rgba(255, 0, 0, 0.06);
+            border-color: rgba(255, 0, 0, 0.1);
+        }
+        body.theme-light .question-box .hint-box,
+        body.theme-light #chapterGame .cg-question-box .q-hint-box {
+            color: #e67e22;
+            background: rgba(230, 126, 34, 0.06);
+            border-color: rgba(230, 126, 34, 0.1);
+        }
+        body.theme-light .btn-hint,
+        body.theme-light #chapterGame .cg-question-box .cg-hint-btn {
+            border-color: rgba(230, 126, 34, 0.3);
+            background: rgba(230, 126, 34, 0.06);
+            color: #e67e22;
+        }
+        body.theme-light .feedback.correct {
+            color: #27ae60;
+            background: rgba(39, 174, 96, 0.1);
+        }
+        body.theme-light .feedback.wrong {
+            color: #c0392b;
+            background: rgba(192, 57, 43, 0.1);
+        }
+        body.theme-light .feedback.info {
+            color: #2980b9;
+            background: rgba(41, 128, 185, 0.1);
+        }
+        body.theme-light .overlay {
+            background: rgba(255, 255, 255, 0.92);
+        }
+        body.theme-light .overlay .title {
+            color: #1a1a3e;
+        }
+        body.theme-light .overlay .sub {
+            color: rgba(0, 0, 0, 0.5);
+        }
+        body.theme-light .progress-wrap {
+            background: rgba(0, 0, 0, 0.06);
+        }
+        body.theme-light .toggle-switch {
+            background: rgba(0, 0, 0, 0.15);
+        }
+        body.theme-light .toggle-switch.active {
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+        }
+        body.theme-light #chapterGame .cg-question-box .cg-overlay {
+            background: rgba(255, 255, 255, 0.92);
+        }
+        body.theme-light #chapterGame .cg-question-box .cg-overlay .title {
+            color: #1a1a3e;
+        }
+        body.theme-light #chapterGame .cg-question-box .cg-overlay .sub {
+            color: rgba(0, 0, 0, 0.5);
+        }
+        body.theme-light .menu-footer .report-link {
+            background: rgba(230, 126, 34, 0.1);
+            color: #e67e22;
+            border-color: rgba(230, 126, 34, 0.15);
+        }
+        body.theme-light #reportModal .modal-box {
+            background: rgba(255, 255, 255, 0.92);
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        body.theme-light #reportModal .modal-box .modal-title {
+            color: #e67e22;
+        }
+        body.theme-light #reportModal .modal-box .modal-sub {
+            color: rgba(0, 0, 0, 0.4);
+        }
+        body.theme-light #reportModal .modal-box .report-item {
+            color: #1a1a3e;
+            background: rgba(0, 0, 0, 0.02);
+            border-left-color: #e67e22;
+        }
+        body.theme-light #reportModal .modal-box .close-modal {
+            color: rgba(0, 0, 0, 0.3);
+        }
+        body.theme-light .copy-btn {
+            background: #e67e22;
+            color: #fff;
+        }
+        body.theme-light .copy-btn:active {
+            background: #d35400;
+        }
 
-#ui .love:last-child .love_word{
-    color:#fff;
-    font-size:2rem;
-    text-shadow:0 0 15px #ea80b0;
-}
+        .app-container {
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
 
-.love_horizontal{
-    animation:horizontal 10s infinite alternate ease-in-out;
-}
+        /* ===== MENU ===== */
+        #menu {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 32px 24px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            width: 100%;
+        }
+        #menu.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+            position: absolute;
+        }
+        .menu-icon {
+            font-size: 56px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .menu-title {
+            color: #fff;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .menu-title span {
+            color: #ffd93d;
+        }
+        .menu-subtitle {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 16px;
+            font-weight: 300;
+            margin-bottom: 28px;
+            letter-spacing: 2px;
+        }
+        .menu-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.4), transparent);
+            margin: 0 auto 24px;
+        }
+        .menu-btn {
+            display: block;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+            margin-bottom: 12px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+        .menu-btn:active {
+            transform: scale(0.96);
+        }
+        .menu-btn .left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .menu-btn .left .mode-icon {
+            font-size: 22px;
+            width: 28px;
+            text-align: center;
+        }
+        .menu-btn .right {
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .menu-btn .badge {
+            background: rgba(255, 215, 0, 0.15);
+            padding: 2px 12px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffd93d;
+        }
+        .menu-btn .lock-icon-left {
+            font-size: 18px;
+            margin-right: 4px;
+        }
+        .menu-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .menu-btn .sub {
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.3);
+            margin-left: 4px;
+        }
+        .menu-footer {
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .menu-footer .report-link {
+            background: rgba(255, 215, 0, 0.12);
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #ffd93d;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+        }
+        .menu-footer .report-link:active {
+            transform: scale(0.94);
+        }
+        .menu-extra-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .menu-extra-row .menu-btn {
+            flex: 1;
+            text-align: center;
+            justify-content: center;
+            margin-bottom: 0;
+            font-size: 16px;
+            padding: 12px 12px;
+            min-width: calc(50% - 6px);
+        }
+        .menu-extra-row .menu-btn .left {
+            justify-content: center;
+            gap: 8px;
+        }
 
-.love_vertical{
-    animation:vertical 20s infinite linear;
-}
+        /* ===== REPORT MODAL ===== */
+        #reportModal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        #reportModal.visible {
+            display: flex;
+        }
+        #reportModal .modal-box {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 28px 24px 24px;
+            max-width: 420px;
+            width: 100%;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            position: relative;
+            text-align: center;
+        }
+        #reportModal .modal-box .close-modal {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 24px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        #reportModal .modal-box .close-modal:active {
+            transform: scale(0.9);
+        }
+        #reportModal .modal-box .modal-title {
+            color: #ffd93d;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        #reportModal .modal-box .modal-sub {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        #reportModal .modal-box .report-item {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 15px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #ffd93d;
+        }
+        #reportModal .modal-box .report-item .icon {
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        #reportModal .modal-box .report-item .phone-number {
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: #ffd93d;
+            flex: 1;
+        }
+        .copy-btn {
+            background: #ffd93d;
+            border: none;
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #1a1a3e;
+            cursor: pointer;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .copy-btn:active {
+            transform: scale(0.92);
+            background: #f7c948;
+        }
 
-@keyframes horizontal{
-    from{
-        transform:translateX(0);
-    }
-    to{
-        transform:translateX(450px);
-    }
-}
+        /* ===== NOTIFICATION ===== */
+        #notificationPopup {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            z-index: 2000;
+            text-align: center;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+            opacity: 0;
+            pointer-events: none;
+            max-width: 90%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+        #notificationPopup.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
 
-@keyframes vertical{
-    0%{transform:translateY(180px);}
-    10%{transform:translateY(45px);}
-    18%{transform:translateY(0);}
-    25%{transform:translateY(112px);}
-    32%{transform:translateY(0);}
-    50%{transform:translateY(180px);}
-    75%{transform:translateY(450px);}
-    100%{transform:translateY(180px);}
-}
-</style>
+        /* ===== GAME (tebak kata) ===== */
+        #game {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 20px 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+        }
+        #game.visible {
+            display: flex;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .level-badge {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .hint-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #ffd93d;
+            font-weight: 700;
+            background: rgba(255, 215, 0, 0.10);
+            padding: 4px 12px 4px 8px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            font-size: 16px;
+            min-width: 60px;
+            justify-content: center;
+        }
+        .hint-indicator .hint-timer {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            min-width: 50px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0 8px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+        }
+        .hearts {
+            display: flex;
+            gap: 2px;
+            font-size: 22px;
+            letter-spacing: 2px;
+            background: rgba(255, 0, 0, 0.08);
+            padding: 4px 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 0, 0, 0.10);
+            transition: 0.3s;
+        }
+        .hearts.shake {
+            animation: shake 0.4s ease;
+        }
+        @keyframes shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-8px);
+            }
+            75% {
+                transform: translateX(8px);
+            }
+        }
+        .btn-back {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .btn-back:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .progress-wrap {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 2%;
+            background: linear-gradient(90deg, #f7931e, #ffd93d);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .question-box {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .question-box .clue-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 15px;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 4px 18px;
+            border-radius: 40px;
+            border: 1px dashed rgba(255, 255, 255, 0.06);
+            margin-bottom: 8px;
+            display: inline-block;
+        }
+        .question-box .question-text {
+            color: #f0f0ff;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        .question-box .answer-pattern {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin: 10px 0 14px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        .question-box .letter-slot {
+            width: 40px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            border-bottom: 4px solid rgba(255, 255, 255, 0.20);
+            font-family: 'Courier New', monospace;
+            transition: 0.2s;
+        }
+        .question-box .letter-slot.revealed {
+            color: #ffd93d;
+            border-bottom-color: #ffd93d;
+            background: rgba(255, 215, 0, 0.08);
+        }
+        .question-box .letter-slot.hidden {
+            color: transparent;
+            border-bottom-color: rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .question-box .letter-slot.correct-flash {
+            animation: correctPop 0.4s ease;
+        }
+        @keyframes correctPop {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.25);
+                color: #2ecc71;
+                border-bottom-color: #2ecc71;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        .question-box .hint-box {
+            color: #ffd93d;
+            font-size: 14px;
+            font-weight: 400;
+            min-height: 28px;
+            padding: 4px 12px;
+            background: rgba(255, 215, 0, 0.06);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.08);
+            width: 100%;
+            transition: 0.3s;
+        }
+        .question-box .hint-box:empty {
+            display: none;
+        }
+        .input-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 6px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .input-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            outline: none;
+            transition: 0.2s;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            min-width: 0;
+        }
+        .input-row input::placeholder {
+            color: rgba(255, 255, 255, 0.20);
+            font-weight: 400;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+        .input-row input:focus {
+            border-color: rgba(255, 215, 0, 0.40);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .input-row input:disabled {
+            opacity: 0.4;
+        }
+        .btn-submit {
+            padding: 12px 24px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 16px rgba(247, 147, 30, 0.25);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .btn-submit:active {
+            transform: scale(0.94);
+        }
+        .btn-submit:disabled {
+            opacity: 0.4;
+            transform: scale(1);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        .btn-hint {
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 215, 0, 0.20);
+            background: rgba(255, 215, 0, 0.06);
+            color: #ffd93d;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: center;
+            max-width: 320px;
+        }
+        .btn-hint:active {
+            transform: scale(0.96);
+        }
+        .btn-hint:disabled {
+            opacity: 0.3;
+            transform: scale(1);
+            cursor: not-allowed;
+        }
+        .btn-hint .badge {
+            background: rgba(255, 215, 0, 0.15);
+            padding: 0 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        .feedback {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            min-height: 28px;
+            margin-top: 8px;
+            transition: 0.3s;
+            border-radius: 12px;
+            padding: 4px 12px;
+            width: 100%;
+        }
+        .feedback.correct {
+            color: #2ecc71;
+            background: rgba(46, 204, 113, 0.10);
+        }
+        .feedback.wrong {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.10);
+        }
+        .feedback.info {
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.10);
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 10;
+        }
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .overlay .icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+            animation: float 2s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .overlay .title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .overlay .sub {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .overlay .btn-overlay {
+            padding: 14px 40px;
+            border-radius: 40px;
+            border: none;
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 20px rgba(247, 147, 30, 0.3);
+        }
+        .overlay .btn-overlay:active {
+            transform: scale(0.94);
+        }
+        .overlay .btn-overlay.secondary {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: none;
+            margin-top: 10px;
+            font-size: 15px;
+            padding: 12px 32px;
+        }
+        .overlay .btn-overlay.secondary:active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        .particle-container {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 20px;
+            z-index: 5;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            animation: particleFly 1s ease-out forwards;
+        }
+        @keyframes particleFly {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* ===== SETTINGS ===== */
+        #settingsPage {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 32px 24px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+        }
+        #settingsPage.visible {
+            display: flex;
+        }
+        #settingsPage .settings-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        #settingsPage .settings-header h2 {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        #settingsPage .settings-header h2 span {
+            color: #ffd93d;
+        }
+        #settingsPage .settings-header .btn-close-settings {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #settingsPage .settings-header .btn-close-settings:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+        .settings-item .label {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .settings-item .label .icon {
+            font-size: 22px;
+        }
+        .settings-item .label .desc {
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.4);
+            display: block;
+            margin-top: 2px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+            border: none;
+            padding: 0;
+        }
+        .toggle-switch.active {
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+        }
+        .toggle-switch .toggle-knob {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 22px;
+            height: 22px;
+            background: #fff;
+            border-radius: 50%;
+            transition: 0.3s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .toggle-switch.active .toggle-knob {
+            left: 25px;
+        }
+        .btn-danger {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: none;
+            background: #e74c3c;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-danger:active {
+            transform: scale(0.94);
+        }
+        .settings-note {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Tema warna pilihan */
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .theme-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            cursor: pointer;
+            transition: 0.2s;
+            flex-shrink: 0;
+        }
+        .theme-dot.active {
+            border-color: #ffd93d;
+            transform: scale(1.1);
+        }
+        .theme-dot:active {
+            transform: scale(0.92);
+        }
+        .theme-dot.dark {
+            background: radial-gradient(ellipse at center, #1a1a3e, #0f0c29);
+        }
+        .theme-dot.light {
+            background: radial-gradient(ellipse at center, #e8ecf1, #d5d9e0);
+        }
+        .theme-dot.blue {
+            background: radial-gradient(ellipse at center, #1a2a4a, #0a1628);
+        }
+        .theme-dot.green {
+            background: radial-gradient(ellipse at center, #1a3a1a, #0a1f0a);
+        }
+        .theme-dot.rose {
+            background: radial-gradient(ellipse at center, #4a1a2a, #2a0a1a);
+        }
+
+        /* ===== TANTANGAN PAGE ===== */
+        #tantanganPage {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 24px 20px 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+        }
+        #tantanganPage.visible {
+            display: flex;
+        }
+        #tantanganPage .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        #tantanganPage .header .btn-back-chapter {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        #tantanganPage .header .btn-back-chapter:active {
+            transform: scale(0.92);
+        }
+        #tantanganPage .header .title {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        #tantanganPage .header .title span {
+            color: #ffd93d;
+        }
+        #tantanganPage .header .subtitle {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 14px;
+            font-weight: 300;
+        }
+        .chapter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 4px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+        .chapter-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .chapter-list::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.3);
+            border-radius: 4px;
+        }
+
+        .chapter-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: 0.2s;
+        }
+        .chapter-card .info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+        .chapter-card .info .chapter-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chapter-card .info .chapter-desc {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .chapter-card .info .chapter-stars {
+            font-size: 20px;
+            letter-spacing: 2px;
+            margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            position: relative;
+            width: 120px;
+            height: 24px;
+        }
+        .chapter-card .info .chapter-stars .star-bg {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.15);
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        .chapter-card .info .chapter-stars .star-fill {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            color: #ffd93d;
+            font-size: 20px;
+            letter-spacing: 2px;
+            overflow: hidden;
+            white-space: nowrap;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .chapter-card .info .chapter-stars .star-fill span {
+            display: inline-block;
+            width: 24px;
+            text-align: center;
+        }
+        .chapter-card .info .chapter-stars .star-bg span {
+            display: inline-block;
+            width: 24px;
+            text-align: center;
+        }
+        .chapter-card .chapter-btn {
+            padding: 8px 20px;
+            border-radius: 40px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            flex-shrink: 0;
+            min-width: 80px;
+            text-align: center;
+        }
+        .chapter-card .chapter-btn:active {
+            transform: scale(0.94);
+        }
+        .chapter-card .chapter-btn.play {
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+            border-color: #e67e22;
+            color: #fff;
+        }
+        .chapter-card .chapter-btn.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .chapter-card .chapter-btn.complete {
+            background: rgba(46, 204, 113, 0.2);
+            border-color: #2ecc71;
+            color: #2ecc71;
+            cursor: default;
+        }
+
+        /* ===== CHAPTER GAME ===== */
+        #chapterGame {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 32px;
+            padding: 20px 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            flex-direction: column;
+            animation: fadeIn 0.5s ease;
+            position: relative;
+        }
+        #chapterGame.visible {
+            display: flex;
+        }
+
+        #chapterGame .cg-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 0 4px;
+        }
+        #chapterGame .cg-header .cg-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        #chapterGame .cg-header .cg-title span {
+            color: #ffd93d;
+        }
+        #chapterGame .cg-header .cg-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #chapterGame .cg-header .cg-right .hearts {
+            font-size: 20px;
+            padding: 4px 10px;
+        }
+        #chapterGame .cg-header .cg-right .hint-indicator {
+            font-size: 14px;
+            padding: 2px 10px 2px 6px;
+            min-width: 40px;
+        }
+        #chapterGame .cg-header .cg-back {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        #chapterGame .cg-header .cg-back:active {
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        #chapterGame .cg-progress {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        #chapterGame .cg-question-box {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            padding: 24px 20px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 200px;
+        }
+        #chapterGame .cg-question-box .q-number {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        #chapterGame .cg-question-box .q-text {
+            color: #fff;
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            width: 100%;
+        }
+        #chapterGame .cg-question-box .q-hint-box {
+            color: #ffd93d;
+            font-size: 14px;
+            font-weight: 400;
+            min-height: 28px;
+            padding: 4px 12px;
+            background: rgba(255, 215, 0, 0.06);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.08);
+            width: 100%;
+            transition: 0.3s;
+            margin-bottom: 12px;
+        }
+        #chapterGame .cg-question-box .q-hint-box:empty {
+            display: none;
+        }
+        #chapterGame .cg-question-box .input-row {
+            margin-top: 2px;
+            width: 100%;
+            max-width: 100%;
+        }
+        #chapterGame .cg-question-box .input-row input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            outline: none;
+            transition: 0.2s;
+            text-align: center;
+            min-width: 0;
+        }
+        #chapterGame .cg-question-box .input-row input::placeholder {
+            color: rgba(255, 255, 255, 0.20);
+            font-weight: 400;
+        }
+        #chapterGame .cg-question-box .input-row input:focus {
+            border-color: rgba(255, 215, 0, 0.40);
+            background: rgba(255, 255, 255, 0.08);
+        }
+        #chapterGame .cg-question-box .input-row input:disabled {
+            opacity: 0.4;
+        }
+        #chapterGame .cg-question-box .btn-submit {
+            padding: 12px 24px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 16px rgba(247, 147, 30, 0.25);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        #chapterGame .cg-question-box .btn-submit:active {
+            transform: scale(0.94);
+        }
+        #chapterGame .cg-question-box .btn-submit:disabled {
+            opacity: 0.4;
+            transform: scale(1);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+        #chapterGame .cg-question-box .feedback {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            min-height: 28px;
+            margin-top: 10px;
+            transition: 0.3s;
+            border-radius: 12px;
+            padding: 4px 12px;
+            width: 100%;
+        }
+        #chapterGame .cg-question-box .feedback.correct {
+            color: #2ecc71;
+            background: rgba(46, 204, 113, 0.10);
+        }
+        #chapterGame .cg-question-box .feedback.wrong {
+            color: #e74c3c;
+            background: rgba(231, 76, 60, 0.10);
+        }
+        #chapterGame .cg-question-box .feedback.info {
+            color: #3498db;
+            background: rgba(52, 152, 219, 0.10);
+        }
+        #chapterGame .cg-question-box .cg-hint-btn {
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 215, 0, 0.20);
+            background: rgba(255, 215, 0, 0.06);
+            color: #ffd93d;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            width: 100%;
+            justify-content: center;
+            max-width: 320px;
+        }
+        #chapterGame .cg-question-box .cg-hint-btn:active {
+            transform: scale(0.96);
+        }
+        #chapterGame .cg-question-box .cg-hint-btn:disabled {
+            opacity: 0.3;
+            transform: scale(1);
+            cursor: not-allowed;
+        }
+        #chapterGame .cg-question-box .cg-hint-btn .badge {
+            background: rgba(255, 215, 0, 0.15);
+            padding: 0 10px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        #chapterGame .cg-question-box .cg-overlay {
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.82);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            z-index: 10;
+        }
+        #chapterGame .cg-question-box .cg-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #chapterGame .cg-question-box .cg-overlay .icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+            animation: float 2s ease-in-out infinite;
+        }
+        #chapterGame .cg-question-box .cg-overlay .title {
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        #chapterGame .cg-question-box .cg-overlay .sub {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        #chapterGame .cg-question-box .cg-overlay .btn-overlay {
+            padding: 14px 40px;
+            border-radius: 40px;
+            border: none;
+            background: linear-gradient(145deg, #f7931e, #e67e22);
+            color: #fff;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 20px rgba(247, 147, 30, 0.3);
+        }
+        #chapterGame .cg-question-box .cg-overlay .btn-overlay:active {
+            transform: scale(0.94);
+        }
+        #chapterGame .cg-question-box .cg-overlay .btn-overlay.secondary {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: none;
+            margin-top: 10px;
+            font-size: 15px;
+            padding: 12px 32px;
+        }
+
+        /* ===== LOADING ===== */
+        #loadingOverlay {
+            position: fixed;
+            inset: 0;
+            background: #0f0c29;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            flex-direction: column;
+            gap: 20px;
+        }
+        #loadingOverlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #loadingOverlay .loader {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 215, 0, 0.1);
+            border-top-color: #ffd93d;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        #loadingOverlay .text {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .menu-title {
+                font-size: 26px;
+            }
+            .menu-btn {
+                font-size: 16px;
+                padding: 12px 16px;
+            }
+            .question-box .question-text {
+                font-size: 17px;
+            }
+            .question-box .letter-slot {
+                width: 32px;
+                height: 40px;
+                font-size: 20px;
+            }
+            .input-row input {
+                font-size: 16px;
+                padding: 10px 12px;
+            }
+            .btn-submit {
+                font-size: 14px;
+                padding: 10px 18px;
+            }
+            .overlay .title {
+                font-size: 22px;
+            }
+            .hearts {
+                font-size: 18px;
+                padding: 2px 10px;
+            }
+            .hint-indicator {
+                font-size: 14px;
+                padding: 2px 10px 2px 6px;
+                min-width: 40px;
+            }
+            .menu-extra-row .menu-btn {
+                min-width: 100%;
+            }
+            #tantanganPage .header .title {
+                font-size: 20px;
+            }
+            .chapter-card {
+                padding: 12px 16px;
+            }
+            .chapter-card .info .chapter-title {
+                font-size: 16px;
+            }
+            .chapter-card .info .chapter-stars {
+                width: 100px;
+                font-size: 16px;
+                height: 20px;
+            }
+            .chapter-card .info .chapter-stars .star-bg {
+                font-size: 16px;
+            }
+            .chapter-card .info .chapter-stars .star-fill {
+                font-size: 16px;
+            }
+            .chapter-card .info .chapter-stars .star-bg span {
+                width: 20px;
+            }
+            .chapter-card .info .chapter-stars .star-fill span {
+                width: 20px;
+            }
+            .chapter-card .chapter-btn {
+                font-size: 12px;
+                padding: 6px 14px;
+                min-width: 60px;
+            }
+            #chapterGame .cg-header .cg-title {
+                font-size: 16px;
+            }
+            #chapterGame .cg-question-box .q-text {
+                font-size: 17px;
+            }
+            #chapterGame .cg-question-box {
+                padding: 16px 14px;
+            }
+            .menu-footer .report-link {
+                font-size: 12px;
+                padding: 3px 12px;
+            }
+            #reportModal .modal-box {
+                padding: 20px 16px;
+            }
+            #reportModal .modal-box .modal-title {
+                font-size: 20px;
+            }
+            #reportModal .modal-box .report-item {
+                font-size: 14px;
+                padding: 8px 10px;
+                flex-wrap: wrap;
+            }
+            .theme-selector {
+                gap: 6px;
+            }
+            .theme-dot {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        @media (max-width: 380px) {
+            .question-box .letter-slot {
+                width: 28px;
+                height: 36px;
+                font-size: 17px;
+            }
+            .question-box .answer-pattern {
+                gap: 4px;
+            }
+            #chapterGame .cg-question-box .q-text {
+                font-size: 15px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="ui"></div>
+    <!-- ===== LOADING ===== -->
+    <div id="loadingOverlay">
+        <div class="loader"></div>
+        <div class="text">Memuat...</div>
+    </div>
 
-<script>
-const ui = document.getElementById("ui");
+    <!-- ===== NOTIFICATION ===== -->
+    <div id="notificationPopup">
+        <span class="icon">🎉</span>
+        <span id="notifText">Pesan</span>
+    </div>
 
-for(let i=1;i<=100;i++){
+    <!-- ===== REPORT MODAL ===== -->
+    <div id="reportModal">
+        <div class="modal-box">
+            <button class="close-modal" id="closeReportModal">✕</button>
+            <div class="modal-title">⚠️ Laporan</div>
+            <div class="modal-sub">Kritik, saran, dan laporan bug</div>
+            <div class="report-item">
+                <span class="icon">🐛</span>
+                <span>Jika menemukan Bug, harap tolong hubungi admin, Agar game kondusif tidak ada bug yang melakukan kecurangan.</span>
+            </div>
+            <div class="report-item">
+                <span class="icon">📞</span>
+                <span>Kritik dan saran bisa hubungi Nomor Admin :</span>
+            </div>
+            <div class="report-item" style="border-left-color: #ffd93d; background: rgba(255,215,0,0.05);">
+                <span class="icon">📱</span>
+                <span class="phone-number">0858-7631-1950</span>
+                <button class="copy-btn" id="copyPhoneBtn">Salin Nomor</button>
+            </div>
+        </div>
+    </div>
 
-    const love=document.createElement("div");
-    love.className="love";
+    <!-- ===== APP ===== -->
+    <div class="app-container">
 
-    love.innerHTML=`
-        <div class="love_horizontal">
-            <div class="love_vertical">
-                <div class="love_word">
-                    ${i===100 ? "I Love You" : "I Love You"}
+        <!-- MENU -->
+        <div id="menu">
+            <span class="menu-icon">🧩</span>
+            <div class="menu-title">Let's Goo <span>Puzzle</span></div>
+            <div class="menu-subtitle">Tebak kata dengan tepat</div>
+            <div class="menu-divider"></div>
+
+            <div id="menuEasy" class="menu-btn" data-mode="easy">
+                <span class="left"><span class="mode-icon" id="easyIcon">🟢</span> Easy <span class="sub">30 soal</span></span>
+                <span class="right"><span class="badge" id="easyProgress">0/30</span> <span id="easyStatus">▶</span></span>
+            </div>
+            <div id="menuMedium" class="menu-btn disabled" data-mode="medium">
+                <span class="left"><span class="mode-icon" id="mediumIcon">🔒</span> Medium <span class="sub">50 soal</span></span>
+                <span class="right"><span class="badge" id="mediumProgress">0/50</span> <span id="mediumStatus">🔒</span></span>
+            </div>
+            <div id="menuHard" class="menu-btn disabled" data-mode="hard">
+                <span class="left"><span class="mode-icon" id="hardIcon">🔒</span> Hard <span class="sub">100 soal</span></span>
+                <span class="right"><span class="badge" id="hardProgress">0/100</span> <span id="hardStatus">🔒</span></span>
+            </div>
+
+            <!-- FITUR BARU: Leaderboard & Mode Harian -->
+            <div class="menu-extra-row">
+                <div class="menu-btn" id="menuLeaderboard">
+                    <span class="left">🏆 Leaderboard</span>
+                </div>
+                <div class="menu-btn" id="menuDaily">
+                    <span class="left">📅 Mode Harian</span>
+                </div>
+            </div>
+
+            <div class="menu-extra-row">
+                <div class="menu-btn" id="menuTantangan">
+                    <span class="left">🎯 Tantangan</span>
+                </div>
+                <div class="menu-btn" id="menuPengaturan">
+                    <span class="left">⚙️ Pengaturan</span>
+                </div>
+            </div>
+
+            <div class="menu-footer">
+                <span>Versi 1.0 • Dibuat Oleh Ardi</span>
+                <span class="report-link" id="openReportModal">⚠️ Laporan</span>
+            </div>
+        </div>
+
+        <!-- GAME (tebak kata) -->
+        <div id="game">
+            <div class="top-bar">
+                <div class="level-badge" id="levelBadge">🎯 Level 1</div>
+                <div class="top-right">
+                    <div class="hint-indicator">
+                        <span>💡</span>
+                        <span class="hint-count" id="hintCount">3</span>
+                        <span class="hint-timer" id="hintTimer"></span>
+                    </div>
+                    <div class="hearts" id="heartsDisplay">❤️❤️❤️</div>
+                    <button class="btn-back" id="btnBackGame">✕</button>
+                </div>
+            </div>
+            <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="question-box" id="questionBox">
+                <div class="particle-container" id="particleContainer"></div>
+                <div class="clue-text" id="clueText">Petunjuk</div>
+                <div class="question-text" id="questionText">Tebak kata ini</div>
+                <div class="answer-pattern" id="answerPattern"></div>
+                <div class="hint-box" id="hintBox"></div>
+                <div class="input-row">
+                    <input type="text" id="answerInput" placeholder="Ketik jawaban..." maxlength="20" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" />
+                    <button class="btn-submit" id="submitBtn">✅ Jawab</button>
+                </div>
+                <button class="btn-hint" id="hintBtn">💡 Pakai Petunjuk <span class="badge" id="hintBtnBadge">3</span></button>
+                <div class="feedback" id="feedback"></div>
+                <div class="overlay" id="gameOverlay">
+                    <div class="icon" id="overlayIcon">🎉</div>
+                    <div class="title" id="overlayTitle">Level Selesai!</div>
+                    <div class="sub" id="overlaySub">Bagus sekali!</div>
+                    <button class="btn-overlay" id="overlayBtn">Lanjut</button>
+                    <button class="btn-overlay secondary" id="overlayMenuBtn">Kembali ke Menu</button>
                 </div>
             </div>
         </div>
-    `;
 
-    love.querySelector(".love_horizontal").style.animationDelay=`-${i*300}ms`;
-    love.querySelector(".love_vertical").style.animationDelay=`-${i*300}ms`;
+        <!-- SETTINGS (tambah tema warna) -->
+        <div id="settingsPage">
+            <div class="settings-header">
+                <h2>⚙️ <span>Pengaturan</span></h2>
+                <button class="btn-close-settings" id="btnCloseSettings">✕</button>
+            </div>
+            <div class="settings-item">
+                <div class="label"><span class="icon">🔊</span> Efek Suara <span class="desc">Aktif/nonaktifkan suara</span></div>
+                <div class="control"><button class="toggle-switch active" id="toggleSound"><span class="toggle-knob"></span></button></div>
+            </div>
+            <div class="settings-item">
+                <div class="label"><span class="icon">🌓</span> Tema Gelap <span class="desc">Mode terang/gelap</span></div>
+                <div class="control"><button class="toggle-switch active" id="toggleTheme"><span class="toggle-knob"></span></button></div>
+            </div>
+            <div class="settings-item">
+                <div class="label"><span class="icon">📳</span> Getaran <span class="desc">Aktif/nonaktifkan getaran</span></div>
+                <div class="control"><button class="toggle-switch active" id="toggleVibration"><span class="toggle-knob"></span></button></div>
+            </div>
+            <!-- FITUR BARU: Tema & Warna -->
+            <div class="settings-item">
+                <div class="label"><span class="icon">🎨</span> Tema & Warna <span class="desc">Pilih suasana tampilan</span></div>
+                <div class="control">
+                    <div class="theme-selector">
+                        <div class="theme-dot dark active" data-theme="dark" title="Gelap"></div>
+                        <div class="theme-dot light" data-theme="light" title="Terang"></div>
+                        <div class="theme-dot blue" data-theme="blue" title="Biru"></div>
+                        <div class="theme-dot green" data-theme="green" title="Hijau"></div>
+                        <div class="theme-dot rose" data-theme="rose" title="Mawar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="settings-item">
+                <div class="label"><span class="icon">🗑️</span> Reset Progress <span class="desc">Hapus semua kemajuan</span></div>
+                <div class="control"><button class="btn-danger" id="btnResetProgress">Reset</button></div>
+            </div>
+            <div class="settings-note">⚡ Perubahan disimpan otomatis</div>
+        </div>
 
-    ui.appendChild(love);
-}
-</script>
+        <!-- TANTANGAN PAGE -->
+        <div id="tantanganPage">
+            <div class="header">
+                <button class="btn-back-chapter" id="btnBackToMenuFromTantangan">←</button>
+                <div>
+                    <div class="title">🧩 <span>Select Chapter</span></div>
+                    <div class="subtitle">Choose Your Adventure</div>
+                </div>
+            </div>
+            <div class="chapter-list" id="chapterList"></div>
+        </div>
 
+        <!-- CHAPTER GAME -->
+        <div id="chapterGame">
+            <div class="cg-header">
+                <div class="cg-title">📘 <span id="cgChapterName">Chapter 1</span></div>
+                <div class="cg-right">
+                    <span class="hearts" id="cgHearts">❤️❤️❤️</span>
+                    <span class="hint-indicator">
+                        <span>💡</span>
+                        <span class="hint-count" id="cgHintCount">3</span>
+                        <span class="hint-timer" id="cgHintTimer"></span>
+                    </span>
+                    <button class="cg-back" id="btnBackFromChapter">✕</button>
+                </div>
+            </div>
+            <div class="cg-progress" id="cgProgress">Soal 1 / 30</div>
+            <div class="cg-question-box" id="cgQuestionBox">
+                <div class="q-number" id="cgQNumber">Soal #1</div>
+                <div class="q-text" id="cgQText">Pertanyaan di sini</div>
+                <div class="q-hint-box" id="cgHintBox"></div>
+                <div class="input-row">
+                    <input type="text" id="cgAnswerInput" placeholder="Ketik jawaban..." autocomplete="off" autocorrect="off" spellcheck="false" />
+                    <button class="btn-submit" id="cgSubmitBtn">✅ Jawab</button>
+                </div>
+                <button class="cg-hint-btn" id="cgHintBtn">💡 Pakai Petunjuk <span class="badge" id="cgHintBtnBadge">3</span></button>
+                <div class="feedback" id="cgFeedback"></div>
+                <div class="cg-overlay" id="cgOverlay">
+                    <div class="icon" id="cgOverlayIcon">🎉</div>
+                    <div class="title" id="cgOverlayTitle">Selesai!</div>
+                    <div class="sub" id="cgOverlaySub">Bagus sekali!</div>
+                    <button class="btn-overlay" id="cgOverlayBtn">Lanjut</button>
+                    <button class="btn-overlay secondary" id="cgOverlayMenuBtn">Kembali ke Chapter</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEADERBOARD PAGE (fitur baru) -->
+        <div id="leaderboardPage" style="display:none; background:rgba(255,255,255,0.05); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-radius:32px; padding:24px 20px 28px; border:1px solid rgba(255,255,255,0.06); box-shadow:0 30px 80px rgba(0,0,0,0.6); width:100%; flex-direction:column; animation:fadeIn 0.5s ease;">
+            <div class="header" style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+                <button class="btn-back-chapter" id="btnBackFromLeaderboard" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); color:#fff; width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; flex-shrink:0;">←</button>
+                <div>
+                    <div class="title" style="color:#fff; font-size:24px; font-weight:700;">🏆 Leaderboard</div>
+                    <div class="subtitle" style="color:rgba(255,255,255,0.4); font-size:14px;">Skor terbaik pemain</div>
+                </div>
+            </div>
+            <div id="leaderboardContent" style="color:#fff; text-align:center; padding:20px 0;">
+                <div style="font-size:48px; margin-bottom:10px;">🏆</div>
+                <p style="color:rgba(255,255,255,0.5);">Belum ada skor. Mainkan game untuk mengisi leaderboard!</p>
+                <div id="leaderboardList" style="margin-top:16px; text-align:left;"></div>
+            </div>
+        </div>
+
+        <!-- MODE HARIAN PAGE (fitur baru) -->
+        <div id="dailyPage" style="display:none; background:rgba(255,255,255,0.05); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-radius:32px; padding:24px 20px 28px; border:1px solid rgba(255,255,255,0.06); box-shadow:0 30px 80px rgba(0,0,0,0.6); width:100%; flex-direction:column; animation:fadeIn 0.5s ease;">
+            <div class="header" style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+                <button class="btn-back-chapter" id="btnBackFromDaily" style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); color:#fff; width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer; transition:0.2s; display:flex; align-items:center; justify-content:center; flex-shrink:0;">←</button>
+                <div>
+                    <div class="title" style="color:#fff; font-size:24px; font-weight:700;">📅 Mode Harian</div>
+                    <div class="subtitle" style="color:rgba(255,255,255,0.4); font-size:14px;">Soal baru setiap hari</div>
+                </div>
+            </div>
+            <div id="dailyContent" style="color:#fff; text-align:center; padding:20px 0;">
+                <div style="font-size:48px; margin-bottom:10px;">📅</div>
+                <p id="dailyDate" style="color:rgba(255,255,255,0.5); font-size:16px;"></p>
+                <div id="dailyQuestion" style="margin-top:16px; background:rgba(255,255,255,0.04); border-radius:16px; padding:16px; border:1px solid rgba(255,255,255,0.06);">
+                    <p style="font-size:18px; font-weight:600;">"Tebak kata hari ini"</p>
+                    <p id="dailyClue" style="color:rgba(255,255,255,0.5); font-size:14px; margin:8px 0;">Petunjuk akan muncul</p>
+                    <div class="input-row" style="margin-top:10px; max-width:100%;">
+                        <input type="text" id="dailyAnswerInput" placeholder="Ketik jawaban..." autocomplete="off" autocorrect="off" spellcheck="false" style="flex:1; padding:12px 16px; border-radius:14px; border:2px solid rgba(255,255,255,0.08); background:rgba(255,255,255,0.06); color:#fff; font-size:18px; outline:none; text-align:center; min-width:0;" />
+                        <button class="btn-submit" id="dailySubmitBtn">✅ Jawab</button>
+                    </div>
+                    <div id="dailyFeedback" style="margin-top:10px; font-size:15px; font-weight:600; min-height:28px;"></div>
+                </div>
+                <div id="dailyHistory" style="margin-top:16px; text-align:left; color:rgba(255,255,255,0.5); font-size:14px;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // ======================================================================
+        //  DATA SOAL (sama seperti sebelumnya)
+        // ======================================================================
+        const WORD_BANK = {
+            easy: [
+                { word: "MATAHARI", clue: "Benda langit pusat tata surya", hint: "Terbit di timur" },
+                { word: "BUMI", clue: "Planet tempat kita tinggal", hint: "Berwarna biru" },
+                { word: "BULAN", clue: "Satelit alami bumi", hint: "Bentuknya berubah" },
+                { word: "AIR", clue: "Zat cair penting bagi kehidupan", hint: "Tidak berwarna" },
+                { word: "API", clue: "Menghasilkan panas dan cahaya", hint: "Berwarna merah" },
+                { word: "ANGIN", clue: "Udara yang bergerak", hint: "Tidak terlihat" },
+                { word: "HUJAN", clue: "Air yang jatuh dari langit", hint: "Sering disertai petir" },
+                { word: "PELANGI", clue: "Busur warna setelah hujan", hint: "7 warna" },
+                { word: "BATU", clue: "Benda padat yang keras", hint: "Di sungai" },
+                { word: "POHON", clue: "Tumbuhan besar dengan batang", hint: "Tempat burung" },
+                { word: "BUNGA", clue: "Bagian tumbuhan yang indah", hint: "Dijadikan hadiah" },
+                { word: "RUMPUT", clue: "Tumbuhan hijau di tanah", hint: "Makanan sapi" },
+                { word: "GUNUNG", clue: "Tanah yang menjulang", hint: "Puncak bersalju" },
+                { word: "LAUT", clue: "Perairan asin yang luas", hint: "Tempat ikan" },
+                { word: "PASIR", clue: "Butiran kecil di pantai", hint: "Putih atau coklat" },
+                { word: "BUKU", clue: "Kumpulan kertas berisi tulisan", hint: "Tempat ilmu" },
+                { word: "PENSIL", clue: "Alat tulis yang dapat dihapus", hint: "Dari kayu dan grafit" },
+                { word: "MEJA", clue: "Furniture untuk meletakkan barang", hint: "Dari kayu" },
+                { word: "KURSI", clue: "Tempat duduk", hint: "Empat kaki" },
+                { word: "PINTU", clue: "Tempat keluar masuk", hint: "Bisa dibuka" },
+                { word: "JENDELA", clue: "Lubang di dinding untuk cahaya", hint: "Dari kaca" },
+                { word: "KUCING", clue: "Hewan berkaki empat suka tikus", hint: "Meong" },
+                { word: "ANJING", clue: "Hewan setia kepada manusia", hint: "Guk-guk" },
+                { word: "AYAM", clue: "Hewan yang berkokok", hint: "Bertelur" },
+                { word: "IKAN", clue: "Hewan yang hidup di air", hint: "Berenang" },
+                { word: "BURUNG", clue: "Hewan yang bisa terbang", hint: "Mempunyai sayap" },
+                { word: "GAJAH", clue: "Hewan darat terbesar", hint: "Mempunyai belalai" },
+                { word: "ULAR", clue: "Hewan melata tidak berkaki", hint: "Berbisa" },
+                { word: "HARIMAU", clue: "Hewan buas bergaris", hint: "Berkembang biak melahirkan" },
+                { word: "KERA", clue: "Hewan primata pintar", hint: "Suka pisang" }
+            ],
+            medium: [
+                { word: "NUSANTARA", clue: "Wilayah kepulauan Indonesia", hint: "Sabang sampai Merauke" },
+                { word: "JAKARTA", clue: "Ibu kota Indonesia", hint: "Pulau Jawa" },
+                { word: "BALI", clue: "Pulau dewata", hint: "Pulau seribu pura" },
+                { word: "PAPUA", clue: "Pulau di ujung timur", hint: "Burung cenderawasih" },
+                { word: "SUMATRA", clue: "Pulau terbesar di barat", hint: "Harimau sumatra" },
+                { word: "JAWA", clue: "Pulau dengan kepadatan tinggi", hint: "Antara Sumatra dan Bali" },
+                { word: "KALIMANTAN", clue: "Pulau dibagi 3 negara", hint: "Orangutan" },
+                { word: "SULAWESI", clue: "Pulau berbentuk K", hint: "Toraja" },
+                { word: "MALAM", clue: "Waktu setelah matahari terbenam", hint: "Bulan dan bintang" },
+                { word: "PAGI", clue: "Waktu matahari terbit", hint: "Ayam berkokok" },
+                { word: "SIANG", clue: "Waktu matahari di atas", hint: "Matahari terang" },
+                { word: "SORE", clue: "Waktu menjelang malam", hint: "Matahari turun" },
+                { word: "TELUR", clue: "Makanan dari ayam", hint: "Berbentuk oval" },
+                { word: "SUSU", clue: "Minuman putih dari hewan", hint: "Kaya kalsium" },
+                { word: "ROTI", clue: "Makanan dari tepung terigu", hint: "Untuk sarapan" },
+                { word: "NASI", clue: "Makanan pokok Indonesia", hint: "Putih dan pulen" },
+                { word: "MIE", clue: "Makanan panjang dari tepung", hint: "Bisa digoreng" },
+                { word: "BAKSO", clue: "Makanan bulat dari daging", hint: "Dengan kuah" },
+                { word: "SATE", clue: "Makanan daging tusuk", hint: "Bumbu kacang" },
+                { word: "GADO", clue: "Makanan Betawi dari sayuran", hint: "Saus kacang" },
+                { word: "MOTOR", clue: "Kendaraan roda dua", hint: "Pakai bensin" },
+                { word: "MOBIL", clue: "Kendaraan roda empat", hint: "Bisa 5 orang" },
+                { word: "KAPAL", clue: "Kendaraan di laut", hint: "Berlayar" },
+                { word: "PESAWAT", clue: "Kendaraan di udara", hint: "Terbang" },
+                { word: "SEPEDA", clue: "Kendaraan roda dua tanpa mesin", hint: "Dikayuh" },
+                { word: "GERBONG", clue: "Bagian dari kereta api", hint: "Tempat duduk" },
+                { word: "BALON", clue: "Benda bundar mengapung", hint: "Diisi udara" },
+                { word: "LAYANG", clue: "Mainan terbang", hint: "Ditarik tali" },
+                { word: "KERTAS", clue: "Lembaran tipis untuk menulis", hint: "Dari serat kayu" },
+                { word: "KRAYON", clue: "Alat mewarnai dari lilin", hint: "Silinder" },
+                { word: "SEPATU", clue: "Alas kaki", hint: "Melindungi kaki" },
+                { word: "KAOS", clue: "Pakaian tanpa kerah", hint: "Sehari-hari" },
+                { word: "JAKET", clue: "Pakaian luar menghangatkan", hint: "Pakai resleting" },
+                { word: "TAS", clue: "Wadah bawa barang", hint: "Digendong" },
+                { word: "KACA", clue: "Bahan tembus pandang", hint: "Untuk jendela" },
+                { word: "KAYU", clue: "Bahan keras dari pohon", hint: "Untuk meja" },
+                { word: "BESI", clue: "Logam keras hitam", hint: "Untuk konstruksi" },
+                { word: "EMAS", clue: "Logam mulia kuning", hint: "Sangat berharga" },
+                { word: "PERAK", clue: "Logam putih keabu-abuan", hint: "Lebih murah dari emas" },
+                { word: "TANAH", clue: "Permukaan bumi", hint: "Tempat tanaman" },
+                { word: "BATUK", clue: "Reaksi tubuh di tenggorokan", hint: "Disertai pilek" },
+                { word: "DEMAM", clue: "Suhu tubuh meningkat", hint: "Badan hangat" },
+                { word: "SAKIT", clue: "Kondisi tubuh tidak sehat", hint: "Perlu istirahat" },
+                { word: "SEHAT", clue: "Kondisi tubuh baik", hint: "Tidak ada penyakit" },
+                { word: "CINTA", clue: "Perasaan sayang mendalam", hint: "Dengan hati" },
+                { word: "BAHAGIA", clue: "Perasaan senang", hint: "Sering tersenyum" },
+                { word: "SEDIH", clue: "Perasaan kecewa", hint: "Mengeluarkan air mata" },
+                { word: "MARAH", clue: "Perasaan tidak suka", hint: "Wajah memerah" },
+                { word: "TAKUT", clue: "Perasaan khawatir", hint: "Jantung berdetak" },
+                { word: "BERANI", clue: "Tidak takut", hint: "Sifat pahlawan" }
+            ],
+            hard: [
+                { word: "GARUDA", clue: "Burung mitologi lambang negara", hint: "Sayap lebar" },
+                { word: "PANCASILA", clue: "Dasar negara Indonesia", hint: "5 sila" },
+                { word: "BOROBUDUR", clue: "Candi Budha terbesar", hint: "Magelang" },
+                { word: "PRAMUKA", clue: "Gerakan kepanduan", hint: "Seragam coklat" },
+                { word: "KARNAVAL", clue: "Perayaan dengan pawai", hint: "Meriah" },
+                { word: "KEMERDEKAAN", clue: "Hari jadi Indonesia", hint: "17 Agustus" },
+                { word: "PRESIDEN", clue: "Kepala negara", hint: "Dipilih pemilu" },
+                { word: "DEWAN", clue: "Lembaga perwakilan", hint: "Buat undang-undang" },
+                { word: "PERADILAN", clue: "Lembaga penegak keadilan", hint: "Persidangan" },
+                { word: "MAHKAMAH", clue: "Pengadilan tertinggi", hint: "Kasasi" },
+                { word: "KONSTITUSI", clue: "Hukum dasar negara", hint: "UUD 1945" },
+                { word: "DEMOKRASI", clue: "Sistem pemerintahan dari rakyat", hint: "Kekuasaan rakyat" },
+                { word: "MONUMEN", clue: "Bangunan kenang peristiwa", hint: "Tugu" },
+                { word: "MUSEUM", clue: "Tempat benda bersejarah", hint: "Belajar" },
+                { word: "GALERI", clue: "Tempat karya seni", hint: "Lukisan" },
+                { word: "RAGAM", clue: "Keanekaragaman budaya", hint: "Berbeda" },
+                { word: "INDONESIA", clue: "Negara kepulauan terbesar", hint: "Asia Tenggara" },
+                { word: "MERDEKA", clue: "Bebas dari penjajahan", hint: "Tahun 1945" },
+                { word: "PROKLAMASI", clue: "Pengumuman kemerdekaan", hint: "Soekarno" },
+                { word: "SURABAYA", clue: "Kota pahlawan", hint: "Jembatan Suramadu" },
+                { word: "BANDUNG", clue: "Kota kembang", hint: "Dataran tinggi" },
+                { word: "YOGYAKARTA", clue: "Kota pelajar", hint: "Malioboro" },
+                { word: "SEMARANG", clue: "Ibu kota Jawa Tengah", hint: "Lumpia" },
+                { word: "MEDAN", clue: "Kota terbesar Sumatra Utara", hint: "Soto" },
+                { word: "MAKASSAR", clue: "Ibu kota Sulawesi Selatan", hint: "Angin mammiri" },
+                { word: "PALEMBANG", clue: "Kota pempek", hint: "Sungai Musi" },
+                { word: "BANJARMASIN", clue: "Ibu kota Kalimantan Selatan", hint: "Seribu sungai" },
+                { word: "MANADO", clue: "Ibu kota Sulawesi Utara", hint: "Bunaken" },
+                { word: "MATARAM", clue: "Ibu kota NTB", hint: "Banyak masjid" },
+                { word: "KUPANG", clue: "Ibu kota NTT", hint: "Pulau Timor" },
+                { word: "TERNATE", clue: "Kota Maluku Utara", hint: "Cengkeh" },
+                { word: "JAYAPURA", clue: "Ibu kota Papua", hint: "Ujung timur" },
+                { word: "LOMBOK", clue: "Pulau di timur Bali", hint: "Pantai Kuta" },
+                { word: "FLORES", clue: "Pulau NTT", hint: "Komodo" },
+                { word: "KOMODO", clue: "Kadal purba terbesar", hint: "Pulau Komodo" },
+                { word: "ORANGUTAN", clue: "Monyet besar cerdas", hint: "Kalimantan" },
+                { word: "BADAK", clue: "Hewan besar bercula", hint: "Ujung Kulon" },
+                { word: "BANTENG", clue: "Hewan liar mirip sapi", hint: "Hutan" },
+                { word: "BABI", clue: "Hewan ternak gemuk", hint: "Makanan" },
+                { word: "KAMBING", clue: "Hewan ternak bertanduk", hint: "Kurban" },
+                { word: "DOMBA", clue: "Hewan dengan bulu tebal", hint: "Wol" },
+                { word: "KUDA", clue: "Hewan yang ditunggangi", hint: "Berlari" },
+                { word: "KELEDAI", clue: "Hewan mirip kuda telinga panjang", hint: "Keras kepala" },
+                { word: "ONTA", clue: "Hewan gurun berpunuk", hint: "Tahan air" },
+                { word: "RUSA", clue: "Hewan bertanduk anggun", hint: "Hutan" },
+                { word: "KELINCI", clue: "Hewan kecil bertelinga panjang", hint: "Wortel" },
+                { word: "TIKUS", clue: "Hewan pengerat", hint: "Merusak barang" },
+                { word: "KEPITING", clue: "Hewan laut bercapit", hint: "Menyamping" },
+                { word: "UDANG", clue: "Hewan laut kecil pink", hint: "Makanan" },
+                { word: "CUMI", clue: "Hewan laut bertentakel", hint: "Tinta" },
+                { word: "GURITA", clue: "Hewan laut 8 tentakel", hint: "Pintar" },
+                { word: "HIU", clue: "Ikan predator laut", hint: "Gigi tajam" },
+                { word: "LUMBA", clue: "Mamalia laut cerdas", hint: "Melompat" },
+                { word: "PAUS", clue: "Hewan terbesar", hint: "Bernapas paru-paru" },
+                { word: "PENYU", clue: "Reptil laut dengan tempurung", hint: "Bertelur di pantai" },
+                { word: "KUKANG", clue: "Primata kecil aktif malam", hint: "Mata bulat" },
+                { word: "LUMUT", clue: "Tumbuhan kecil di tempat lembab", hint: "Hijau" },
+                { word: "PAKIS", clue: "Tumbuhan paku", hint: "Hutan" },
+                { word: "ANGGREK", clue: "Bunga indah eksotis", hint: "Langka" },
+                { word: "MELATI", clue: "Bunga putih wangi", hint: "Pernikahan" },
+                { word: "MAWAR", clue: "Bunga merah dengan duri", hint: "Cinta" },
+                { word: "KEMBANG", clue: "Bagian tumbuhan berwarna", hint: "Bunga" },
+                { word: "SEGAR", clue: "Kondisi tubuh nyaman", hint: "Air dingin" },
+                { word: "NIKMAT", clue: "Perasaan menyenangkan", hint: "Makanan lezat" },
+                { word: "SENANG", clue: "Perasaan gembira", hint: "Hati ringan" },
+                { word: "KECEWA", clue: "Perasaan tidak sesuai harapan", hint: "Lesu" },
+                { word: "KEJAM", clue: "Sikap tidak manusiawi", hint: "Menyakiti" },
+                { word: "DENDAM", clue: "Perasaan ingin membalas", hint: "Amarah" },
+                { word: "MAAF", clue: "Permohonan dimaklumi", hint: "Diberikan kepada yang bersalah" },
+                { word: "TERIMA", clue: "Menyambut sesuatu", hint: "Lawan menolak" },
+                { word: "KASIH", clue: "Perasaan sayang", hint: "Tindakan" },
+                { word: "SAYANG", clue: "Perasaan cinta", hint: "Tidak ingin ditinggalkan" },
+                { word: "RINDU", clue: "Perasaan ingin bertemu", hint: "Jauh di mata" },
+                { word: "KHAS", clue: "Spesifik dan berbeda", hint: "Ciri khas" },
+                { word: "UNIK", clue: "Tidak ada duanya", hint: "Berbeda" },
+                { word: "FENOMENA", clue: "Peristiwa alam luar biasa", hint: "Gerhana" },
+                { word: "MITOS", clue: "Cerita turun-temurun", hint: "Belum tentu benar" },
+                { word: "LEGENDA", clue: "Cerita rakyat", hint: "Masa lampau" },
+                { word: "DONGENG", clue: "Cerita pengantar tidur", hint: "Imajinasi" },
+                { word: "PUISI", clue: "Karya sastra berima", hint: "Perasaan" },
+                { word: "SAJAK", clue: "Puisi pendek", hint: "4 baris" },
+                { word: "PROSA", clue: "Karya sastra tidak berima", hint: "Cerita" },
+                { word: "DRAMA", clue: "Pertunjukan konflik", hint: "Panggung" },
+                { word: "KOMEDI", clue: "Pertunjukan lucu", hint: "Tertawa" },
+                { word: "TRAGEDI", clue: "Cerita menyedihkan", hint: "Tokoh tewas" },
+                { word: "HOROR", clue: "Cerita menakutkan", hint: "Merinding" },
+                { word: "ROMAN", clue: "Cerita cinta", hint: "Bahagia" },
+                { word: "PETUALANGAN", clue: "Cerita aksi", hint: "Berkelana" },
+                { word: "RAJA", clue: "Penguasa monarki", hint: "Istana" },
+                { word: "RATU", clue: "Istri atau penguasa wanita", hint: "Bersuami raja" },
+                { word: "PUTRI", clue: "Anak raja perempuan", hint: "Tuan putri" },
+                { word: "PANGERAN", clue: "Anak raja laki-laki", hint: "Akan jadi raja" },
+                { word: "KERAJAAN", clue: "Wilayah diperintah raja", hint: "Indonesia pernah" },
+                { word: "ISTANA", clue: "Tempat tinggal raja", hint: "Mewah" },
+                { word: "BUDAYA", clue: "Hasil karya manusia", hint: "Adat istiadat" },
+                { word: "ADAT", clue: "Kebiasaan turun-temurun", hint: "Berbeda daerah" },
+                { word: "UPACARA", clue: "Seremonial", hint: "Acara tertentu" },
+                { word: "PERAYAAN", clue: "Acara meriah", hint: "Sukacita" },
+                { word: "SELAMAT", clue: "Ucapan kebahagiaan", hint: "Ulang tahun" },
+                { word: "SUKSES", clue: "Hasil memuaskan", hint: "Mencapai tujuan" },
+                { word: "GAGAL", clue: "Tidak mencapai target", hint: "Mencoba lagi" }
+            ]
+        };
+
+        const CHAPTER_QUESTIONS = {
+            1: [
+                { question: "Siapakah presiden pertama Indonesia?", answer: "Soekarno", hint: "Proklamator" },
+                { question: "Ibu kota Indonesia adalah?", answer: "Jakarta", hint: "Kota metropolitan" },
+                { question: "Gunung tertinggi di Indonesia?", answer: "Puncak Jaya", hint: "Papua" },
+                { question: "Sungai terpanjang di dunia?", answer: "Amazon", hint: "Amerika Selatan" },
+                { question: "Planet terdekat dengan Matahari?", answer: "Merkurius", hint: "Planet terkecil" },
+                { question: "Benua terluas di dunia?", answer: "Asia", hint: "Indonesia di sini" },
+                { question: "Samudra terluas di dunia?", answer: "Pasifik", hint: "Antara Asia dan Amerika" },
+                { question: "Hewan tercepat di darat?", answer: "Cheetah", hint: "Kucing besar Afrika" },
+                { question: "Burung yang tidak bisa terbang?", answer: "Pinguin", hint: "Daerah dingin" },
+                { question: "Bangunan tertinggi di dunia?", answer: "Burj Khalifa", hint: "Dubai" },
+                { question: "Penemu lampu pijar?", answer: "Thomas Edison", hint: "Ilmuwan Amerika" },
+                { question: "Penemu telepon?", answer: "Alexander Graham Bell", hint: "Nama belakang Bell" },
+                { question: "Presiden AS pertama?", answer: "George Washington", hint: "Uang 1 dolar" },
+                { question: "Mata uang Inggris?", answer: "Pound Sterling", hint: "Simbol £" },
+                { question: "Bahasa resmi Brasil?", answer: "Portugis", hint: "Dari Eropa" },
+                { question: "Negara populasi terbanyak?", answer: "India", hint: "Asia Selatan" },
+                { question: "Gurun terluas di dunia?", answer: "Sahara", hint: "Afrika" },
+                { question: "Tempat ibadah umat Islam?", answer: "Masjid", hint: "Sholat" },
+                { question: "Kitab suci umat Islam?", answer: "Al-Quran", hint: "Nabi Muhammad" },
+                { question: "Nabi terakhir dalam Islam?", answer: "Muhammad", hint: "Nama beliau" },
+                { question: "Rukun Islam yang wajib?", answer: "Sholat", hint: "5 kali sehari" },
+                { question: "Hari raya setelah puasa?", answer: "Idul Fitri", hint: "Lebaran" },
+                { question: "Tanggal kemerdekaan Indonesia?", answer: "17 Agustus 1945", hint: "Bulan Agustus" },
+                { question: "Pahlawan dari Surabaya?", answer: "Sutomo", hint: "Bung Tomo" },
+                { question: "Pahlawan dari Yogyakarta?", answer: "Sultan Hamengkubuwono IX", hint: "Raja Yogyakarta" },
+                { question: "Pahlawan dari Aceh?", answer: "Cut Nyak Dhien", hint: "Pejuang wanita" },
+                { question: "Pahlawan dari Maluku?", answer: "Pattimura", hint: "Kapitan" },
+                { question: "Pahlawan dari Sulawesi?", answer: "Sultan Hasanuddin", hint: "Raja Gowa" },
+                { question: "Pahlawan dari Kalimantan?", answer: "Pangeran Antasari", hint: "Banjar" },
+                { question: "Pahlawan dari Sumatra?", answer: "Teuku Umar", hint: "Aceh" }
+            ],
+            2: [
+                { question: "Planet terbesar di tata surya?", answer: "Jupiter", hint: "Bintik merah" },
+                { question: "Planet yang memiliki cincin?", answer: "Saturnus", hint: "Terindah" },
+                { question: "Galaksi tempat Bumi?", answer: "Bima Sakti", hint: "Spiral" },
+                { question: "Satelit alami Bumi?", answer: "Bulan", hint: "Malam" },
+                { question: "Penemu relativitas?", answer: "Albert Einstein", hint: "Rambut acak" },
+                { question: "Penemu mesin uap?", answer: "James Watt", hint: "Satuan daya" },
+                { question: "Penemu pesawat terbang?", answer: "Wright bersaudara", hint: "Orville dan Wilbur" },
+                { question: "Penemu radio?", answer: "Guglielmo Marconi", hint: "Italia" },
+                { question: "Penemu listrik?", answer: "Nikola Tesla", hint: "Serbia-Amerika" },
+                { question: "Penemu mikroskop?", answer: "Antonie van Leeuwenhoek", hint: "Belanda" },
+                { question: "Benua tanpa penghuni?", answer: "Antartika", hint: "Es" },
+                { question: "Samudra terkecil?", answer: "Arktik", hint: "Kutub utara" },
+                { question: "Negara pulau terbanyak?", answer: "Indonesia", hint: "Nusantara" },
+                { question: "Kerajaan di Eropa?", answer: "Inggris", hint: "Ratu Elizabeth" },
+                { question: "Kerajaan di Asia?", answer: "Thailand", hint: "Candi" },
+                { question: "Mata uang Jepang?", answer: "Yen", hint: "¥" },
+                { question: "Mata uang AS?", answer: "Dolar", hint: "$" },
+                { question: "Mata uang Eropa?", answer: "Euro", hint: "€" },
+                { question: "Bahasa resmi Jepang?", answer: "Jepang", hint: "Kanji" },
+                { question: "Bahasa resmi Tiongkok?", answer: "Mandarin", hint: "Nada" },
+                { question: "Bahasa resmi Rusia?", answer: "Rusia", hint: "Sirilik" },
+                { question: "Bahasa resmi Jerman?", answer: "Jerman", hint: "Kata panjang" },
+                { question: "Bahasa resmi Prancis?", answer: "Prancis", hint: "Cinta" },
+                { question: "Bahasa resmi Spanyol?", answer: "Spanyol", hint: "Banyak 'j'" },
+                { question: "Bahasa resmi Arab?", answer: "Arab", hint: "Al-Quran" },
+                { question: "Bahasa resmi India?", answer: "Hindi", hint: "Devanagari" },
+                { question: "Bahasa resmi Turki?", answer: "Turki", hint: "Latin" },
+                { question: "Bahasa resmi Yunani?", answer: "Yunani", hint: "Alpha Beta" },
+                { question: "Bahasa resmi Israel?", answer: "Ibrani", hint: "Kuno" },
+                { question: "Bahasa resmi Mesir?", answer: "Arab", hint: "Sama seperti Arab" }
+            ],
+            3: [
+                { question: "Partikel terkecil atom?", answer: "Elektron", hint: "Negatif" },
+                { question: "Inti atom disebut?", answer: "Nukleus", hint: "Proton neutron" },
+                { question: "Gaya tarik ke pusat Bumi?", answer: "Gravitasi", hint: "Newton" },
+                { question: "Kecepatan lepas gravitasi?", answer: "Escape velocity", hint: "Kecepatan lepas" },
+                { question: "Satuan panjang SI?", answer: "Meter", hint: "m" },
+                { question: "Satuan massa SI?", answer: "Kilogram", hint: "kg" },
+                { question: "Satuan waktu SI?", answer: "Detik", hint: "s" },
+                { question: "Satuan suhu SI?", answer: "Kelvin", hint: "K" },
+                { question: "Satuan arus listrik SI?", answer: "Ampere", hint: "A" },
+                { question: "Satuan intensitas cahaya SI?", answer: "Candela", hint: "cd" },
+                { question: "Satuan jumlah zat SI?", answer: "Mol", hint: "mol" },
+                { question: "Unsur Fe?", answer: "Besi", hint: "Ferrum" },
+                { question: "Unsur Cu?", answer: "Tembaga", hint: "Cuprum" },
+                { question: "Unsur Au?", answer: "Emas", hint: "Aurum" },
+                { question: "Unsur Ag?", answer: "Perak", hint: "Argentum" },
+                { question: "Unsur Sn?", answer: "Timah", hint: "Stannum" },
+                { question: "Unsur Pb?", answer: "Timbal", hint: "Plumbum" },
+                { question: "Unsur Hg?", answer: "Raksa", hint: "Hydrargyrum" },
+                { question: "Unsur C?", answer: "Karbon", hint: "Carbo" },
+                { question: "Unsur O?", answer: "Oksigen", hint: "Oxys" },
+                { question: "Unsur N?", answer: "Nitrogen", hint: "Nitron" },
+                { question: "Unsur H?", answer: "Hidrogen", hint: "Hydro" },
+                { question: "Unsur He?", answer: "Helium", hint: "Helios" },
+                { question: "Unsur Li?", answer: "Litium", hint: "Lithos" },
+                { question: "Unsur Be?", answer: "Berilium", hint: "Beryllos" },
+                { question: "Unsur B?", answer: "Boron", hint: "Buraq" },
+                { question: "Unsur F?", answer: "Fluorin", hint: "Fluere" },
+                { question: "Unsur Ne?", answer: "Neon", hint: "Neos" },
+                { question: "Unsur Na?", answer: "Natrium", hint: "Natrium" },
+                { question: "Unsur Mg?", answer: "Magnesium", hint: "Magnesia" }
+            ],
+            4: [
+                { question: "Penulis 'Laskar Pelangi'?", answer: "Andrea Hirata", hint: "Belitung" },
+                { question: "Penulis 'Bumi Manusia'?", answer: "Pramoedya Ananta Toer", hint: "Multitalenta" },
+                { question: "Penulis 'Saman'?", answer: "Ayu Utami", hint: "Perempuan" },
+                { question: "Penulis 'Supernova'?", answer: "Dewi Lestari", hint: "Penyanyi" },
+                { question: "Penulis 'Perahu Kertas'?", answer: "Dee Lestari", hint: "Supernova" },
+                { question: "Penulis 'Sang Pemimpi'?", answer: "Andrea Hirata", hint: "Sekuel Laskar" },
+                { question: "Penulis 'Edensor'?", answer: "Andrea Hirata", hint: "Serial Laskar" },
+                { question: "Penulis 'Maryamah Karpov'?", answer: "Andrea Hirata", hint: "Serial Laskar" },
+                { question: "Penulis 'Negeri 5 Menara'?", answer: "Ahmad Fuadi", hint: "Sumatera" },
+                { question: "Penulis 'Rantau 1 Muara'?", answer: "Ahmad Fuadi", hint: "Sekuel 5 Menara" },
+                { question: "Penulis 'Dilan'?", answer: "Pidi Baiq", hint: "Bandung" },
+                { question: "Penulis 'Milea'?", answer: "Pidi Baiq", hint: "Sekuel Dilan" },
+                { question: "Penulis 'Saga'?", answer: "Pidi Baiq", hint: "Serial Dilan" },
+                { question: "Penulis 'Bukavu'?", answer: "Pidi Baiq", hint: "Dilan" },
+                { question: "Penulis 'Pulang'?", answer: "Tere Liye", hint: "Sumatra" },
+                { question: "Penulis 'Bumi'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Bulan'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Matahari'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Bintang'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Ceros'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Nebula'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Hujan'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Tentang Kamu'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Rindu'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Bukan'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Si Putih'?", answer: "Tere Liye", hint: "Anak" },
+                { question: "Penulis 'Hafalan Shalat Delisa'?", answer: "Tere Liye", hint: "Inspiratif" },
+                { question: "Penulis 'Pukat'?", answer: "Tere Liye", hint: "Anak" },
+                { question: "Penulis 'Eliana'?", answer: "Tere Liye", hint: "Anak" },
+                { question: "Penulis 'Cinta di Ujung Jalan'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Rembulan Tenggelam di Wajahmu'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Bukan'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Rindu'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Tentang Kamu'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Hujan'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Nebula'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Ceros'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Bintang'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Matahari'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Pulang'?", answer: "Tere Liye", hint: "Roman" },
+                { question: "Penulis 'Bumi'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Bulan'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Matahari'?", answer: "Tere Liye", hint: "Serial Bumi" },
+                { question: "Penulis 'Bintang'?", answer: "Tere Liye", hint: "Serial Bumi" }
+            ],
+            5: [
+                { question: "Penulis 'The Alchemist'?", answer: "Paulo Coelho", hint: "Brasil" },
+                { question: "Penulis 'The Da Vinci Code'?", answer: "Dan Brown", hint: "Amerika" },
+                { question: "Penulis 'Harry Potter'?", answer: "J.K. Rowling", hint: "Inggris" },
+                { question: "Penulis 'Lord of the Rings'?", answer: "J.R.R. Tolkien", hint: "Inggris" },
+                { question: "Penulis 'The Hobbit'?", answer: "J.R.R. Tolkien", hint: "LOTR" },
+                { question: "Penulis '1984'?", answer: "George Orwell", hint: "Inggris" },
+                { question: "Penulis 'Animal Farm'?", answer: "George Orwell", hint: "Satire" },
+                { question: "Penulis 'Brave New World'?", answer: "Aldous Huxley", hint: "Inggris" },
+                { question: "Penulis 'Fahrenheit 451'?", answer: "Ray Bradbury", hint: "Amerika" },
+                { question: "Penulis 'Slaughterhouse-Five'?", answer: "Kurt Vonnegut", hint: "Amerika" },
+                { question: "Penulis 'Catcher in the Rye'?", answer: "J.D. Salinger", hint: "Amerika" },
+                { question: "Penulis 'To Kill a Mockingbird'?", answer: "Harper Lee", hint: "Amerika" },
+                { question: "Penulis 'The Great Gatsby'?", answer: "F. Scott Fitzgerald", hint: "Amerika" },
+                { question: "Penulis 'Moby-Dick'?", answer: "Herman Melville", hint: "Amerika" },
+                { question: "Penulis 'Pride and Prejudice'?", answer: "Jane Austen", hint: "Inggris" },
+                { question: "Penulis 'Wuthering Heights'?", answer: "Emily Bronte", hint: "Inggris" },
+                { question: "Penulis 'Jane Eyre'?", answer: "Charlotte Bronte", hint: "Inggris" },
+                { question: "Penulis 'Emma'?", answer: "Jane Austen", hint: "Pride and Prejudice" },
+                { question: "Penulis 'Sense and Sensibility'?", answer: "Jane Austen", hint: "Inggris" },
+                { question: "Penulis 'Northanger Abbey'?", answer: "Jane Austen", hint: "Inggris" },
+                { question: "Penulis 'Dracula'?", answer: "Bram Stoker", hint: "Irlandia" },
+                { question: "Penulis 'Frankenstein'?", answer: "Mary Shelley", hint: "Inggris" },
+                { question: "Penulis 'Dr Jekyll and Mr Hyde'?", answer: "Robert Louis Stevenson", hint: "Skotlandia" },
+                { question: "Penulis 'Treasure Island'?", answer: "Robert Louis Stevenson", hint: "Skotlandia" },
+                { question: "Penulis 'Oliver Twist'?", answer: "Charles Dickens", hint: "Inggris" },
+                { question: "Penulis 'Great Expectations'?", answer: "Charles Dickens", hint: "Inggris" },
+                { question: "Penulis 'David Copperfield'?", answer: "Charles Dickens", hint: "Inggris" },
+                { question: "Penulis 'Little Women'?", answer: "Louisa May Alcott", hint: "Amerika" },
+                { question: "Penulis 'Tom Sawyer'?", answer: "Mark Twain", hint: "Amerika" },
+                { question: "Penulis 'Huckleberry Finn'?", answer: "Mark Twain", hint: "Amerika" },
+                { question: "Penulis 'Call of the Wild'?", answer: "Jack London", hint: "Amerika" },
+                { question: "Penulis 'White Fang'?", answer: "Jack London", hint: "Amerika" },
+                { question: "Penulis 'The Little Prince'?", answer: "Antoine de Saint-Exupéry", hint: "Prancis" },
+                { question: "Penulis 'The Stranger'?", answer: "Albert Camus", hint: "Prancis" },
+                { question: "Penulis 'The Plague'?", answer: "Albert Camus", hint: "Prancis" },
+                { question: "Penulis 'The Fall'?", answer: "Albert Camus", hint: "Prancis" },
+                { question: "Penulis 'Nausea'?", answer: "Jean-Paul Sartre", hint: "Prancis" },
+                { question: "Penulis 'Age of Reason'?", answer: "Jean-Paul Sartre", hint: "Prancis" },
+                { question: "Penulis 'The Royal Way'?", answer: "André Malraux", hint: "Prancis" },
+                { question: "Penulis 'Man's Fate'?", answer: "André Malraux", hint: "Prancis" },
+                { question: "Penulis 'Les Misérables'?", answer: "Victor Hugo", hint: "Prancis" },
+                { question: "Penulis 'Hunchback of Notre-Dame'?", answer: "Victor Hugo", hint: "Prancis" },
+                { question: "Penulis 'Madame Bovary'?", answer: "Gustave Flaubert", hint: "Prancis" },
+                { question: "Penulis 'Red and the Black'?", answer: "Stendhal", hint: "Prancis" },
+                { question: "Penulis 'Count of Monte Cristo'?", answer: "Alexandre Dumas", hint: "Prancis" }
+            ]
+        };
+
+        // ======================================================================
+        //  STATE
+        // ======================================================================
+        const state = {
+            mode: 'easy',
+            currentLevel: 0,
+            lives: 3,
+            hints: 3,
+            totalQuestions: 0,
+            questions: [],
+            answered: false,
+            isGameOver: false,
+            isComplete: false,
+            progress: {
+                easy: { completed: 0, total: 30 },
+                medium: { completed: 0, total: 50 },
+                hard: { completed: 0, total: 100 }
+            },
+            unlocked: { easy: true, medium: false, hard: false },
+            hintTimer: { count: 3, maxHints: 3, timerEnd: null },
+            chapters: {
+                1: { unlocked: true, correct: 0, total: 30, current: 0, lives: 3, hints: 3, questions: [], finished: false },
+                2: { unlocked: false, correct: 0, total: 30, current: 0, lives: 3, hints: 3, questions: [], finished: false },
+                3: { unlocked: false, correct: 0, total: 30, current: 0, lives: 3, hints: 3, questions: [], finished: false },
+                4: { unlocked: false, correct: 0, total: 45, current: 0, lives: 3, hints: 3, questions: [], finished: false },
+                5: { unlocked: false, correct: 0, total: 45, current: 0, lives: 3, hints: 3, questions: [], finished: false }
+            },
+            currentChapter: null,
+            chapterAnswered: false,
+            chapterGameOver: false,
+            chapterComplete: false,
+            // Leaderboard (disimpan di localStorage)
+            leaderboard: [],
+            // Daily mode
+            dailyAnswered: false,
+            dailyCorrect: false
+        };
+
+        // ======================================================================
+        //  DOM REFS
+        // ======================================================================
+        const $ = id => document.getElementById(id);
+        const menu = $('menu');
+        const game = $('game');
+        const tantanganPage = $('tantanganPage');
+        const chapterGame = $('chapterGame');
+        const settingsPage = $('settingsPage');
+        const loadingOverlay = $('loadingOverlay');
+        const reportModal = $('reportModal');
+        const leaderboardPage = $('leaderboardPage');
+        const dailyPage = $('dailyPage');
+
+        // ======================================================================
+        //  LOCAL STORAGE
+        // ======================================================================
+        function loadAll() {
+            try {
+                const prog = localStorage.getItem('letsgoo_progress');
+                if (prog) { const p = JSON.parse(prog);
+                    state.progress.easy.completed = p.easy?.completed || 0;
+                    state.progress.medium.completed = p.medium?.completed || 0;
+                    state.progress.hard.completed = p.hard?.completed || 0; }
+                const unlock = localStorage.getItem('letsgoo_unlocked');
+                if (unlock) { const u = JSON.parse(unlock);
+                    state.unlocked.easy = u.easy !== undefined ? u.easy : true;
+                    state.unlocked.medium = u.medium !== undefined ? u.medium : false;
+                    state.unlocked.hard = u.hard !== undefined ? u.hard : false; }
+                const ht = localStorage.getItem('letsgoo_hintTimer');
+                if (ht) { const h = JSON.parse(ht);
+                    state.hintTimer.count = h.count !== undefined ? h.count : 3;
+                    state.hintTimer.timerEnd = h.timerEnd || null; if (state.hintTimer.count > 3) state.hintTimer.count =
+                        3; if (state.hintTimer.count < 0) state.hintTimer.count = 0; }
+                const ch = localStorage.getItem('letsgoo_chapters');
+                if (ch) { const c = JSON.parse(ch); for (let i = 1; i <= 5; i++) { if (c[i]) { state.chapters[i]
+                            .unlocked = c[i].unlocked || false;
+                        state.chapters[i].correct = c[i].correct || 0;
+                        state.chapters[i].finished = c[i].finished || false;
+                        state.chapters[i].current = c[i].current || 0;
+                        state.chapters[i].lives = c[i].lives !== undefined ? c[i].lives : 3;
+                        state.chapters[i].hints = c[i].hints !== undefined ? c[i].hints : 3; if (c[i].questions) state
+                            .chapters[i].questions = c[i].questions; } } }
+                const set = localStorage.getItem('letsgoo_settings');
+                if (set) { const s = JSON.parse(set);
+                    applySettings(s); }
+                // Load leaderboard
+                const lb = localStorage.getItem('letsgoo_leaderboard');
+                if (lb) { state.leaderboard = JSON.parse(lb); } else { state.leaderboard = []; }
+                // Load daily history
+                const dh = localStorage.getItem('letsgoo_daily');
+                if (dh) { state.dailyHistory = JSON.parse(dh); } else { state.dailyHistory = {}; }
+            } catch (e) { console.error(e); }
+        }
+
+        function saveAll() {
+            try {
+                localStorage.setItem('letsgoo_progress', JSON.stringify({
+                    easy: { completed: state.progress.easy.completed, total: 30 },
+                    medium: { completed: state.progress.medium.completed, total: 50 },
+                    hard: { completed: state.progress.hard.completed, total: 100 }
+                }));
+                localStorage.setItem('letsgoo_unlocked', JSON.stringify({
+                    easy: state.unlocked.easy,
+                    medium: state.unlocked.medium,
+                    hard: state.unlocked.hard
+                }));
+                localStorage.setItem('letsgoo_hintTimer', JSON.stringify({
+                    count: state.hintTimer.count,
+                    timerEnd: state.hintTimer.timerEnd,
+                    maxHints: state.hintTimer.maxHints
+                }));
+                const ch = {};
+                for (let i = 1; i <= 5; i++) {
+                    ch[i] = {
+                        unlocked: state.chapters[i].unlocked,
+                        correct: state.chapters[i].correct,
+                        finished: state.chapters[i].finished,
+                        current: state.chapters[i].current,
+                        lives: state.chapters[i].lives,
+                        hints: state.chapters[i].hints,
+                        questions: state.chapters[i].questions
+                    };
+                }
+                localStorage.setItem('letsgoo_chapters', JSON.stringify(ch));
+                localStorage.setItem('letsgoo_leaderboard', JSON.stringify(state.leaderboard));
+                localStorage.setItem('letsgoo_daily', JSON.stringify(state.dailyHistory || {}));
+            } catch (e) { console.error(e); }
+        }
+
+        function applySettings(settings) {
+            if (settings.sound) $('toggleSound').classList.add('active');
+            else $('toggleSound').classList.remove('active');
+            if (settings.theme) { $('toggleTheme').classList.add('active');
+                document.body.classList.remove('theme-light', 'theme-blue', 'theme-green', 'theme-rose'); } else { $(
+                    'toggleTheme').classList.remove('active');
+                document.body.classList.add('theme-light'); }
+            if (settings.vibration) $('toggleVibration').classList.add('active');
+            else $('toggleVibration').classList.remove('active');
+            // Tema warna
+            const theme = settings.colorTheme || 'dark';
+            document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('theme-')).join(' ');
+            document.body.classList.add('theme-' + theme);
+            // Update dots
+            document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
+            document.querySelector(`.theme-dot[data-theme="${theme}"]`)?.classList.add('active');
+        }
+
+        function getSettings() {
+            const theme = document.querySelector('.theme-dot.active')?.dataset.theme || 'dark';
+            return {
+                sound: $('toggleSound').classList.contains('active'),
+                theme: $('toggleTheme').classList.contains('active'),
+                vibration: $('toggleVibration').classList.contains('active'),
+                colorTheme: theme
+            };
+        }
+
+        // ======================================================================
+        //  SOUND EFFECTS (Web Audio)
+        // ======================================================================
+        let audioCtx = null;
+
+        function playSound(type) {
+            const settings = getSettings();
+            if (!settings.sound) return;
+            try {
+                if (!audioCtx) audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'sine';
+                if (type === 'correct') {
+                    osc.frequency.value = 800;
+                    gain.gain.value = 0.1;
+                    osc.start();
+                    setTimeout(() => { osc.frequency.value = 1000; }, 100);
+                    setTimeout(() => { osc.stop(); }, 300);
+                } else if (type === 'wrong') {
+                    osc.frequency.value = 300;
+                    gain.gain.value = 0.1;
+                    osc.start();
+                    setTimeout(() => { osc.frequency.value = 200; }, 150);
+                    setTimeout(() => { osc.stop(); }, 400);
+                } else if (type === 'click') {
+                    osc.frequency.value = 600;
+                    gain.gain.value = 0.05;
+                    osc.start();
+                    setTimeout(() => { osc.stop(); }, 80);
+                } else if (type === 'hint') {
+                    osc.frequency.value = 500;
+                    gain.gain.value = 0.08;
+                    osc.start();
+                    setTimeout(() => { osc.frequency.value = 700; }, 100);
+                    setTimeout(() => { osc.stop(); }, 200);
+                } else {
+                    osc.frequency.value = 400;
+                    gain.gain.value = 0.05;
+                    osc.start();
+                    setTimeout(() => { osc.stop(); }, 100);
+                }
+            } catch (e) { /* silent fail */ }
+        }
+
+        // ======================================================================
+        //  HINT TIMER
+        // ======================================================================
+        let hintTimerInterval = null;
+
+        function updateHintTimerDisplay() {
+            const count = state.hintTimer.count;
+            const els = [
+                $('hintCount'), $('hintBtnBadge'),
+                $('cgHintCount'), $('cgHintBtnBadge')
+            ];
+            els.forEach(el => { if (el) el.textContent = count; });
+            const btns = [$('hintBtn'), $('cgHintBtn')];
+            btns.forEach(btn => { if (btn) btn.disabled = count <= 0 || state.answered || state.isGameOver || state
+                    .isComplete; });
+
+            const timerEls = [$('hintTimer'), $('cgHintTimer')];
+            if (state.hintTimer.timerEnd) {
+                const now = Date.now();
+                const remaining = Math.max(0, (state.hintTimer.timerEnd - now) / 1000);
+                if (remaining > 0) {
+                    const mins = Math.floor(remaining / 60);
+                    const secs = Math.floor(remaining % 60);
+                    const txt = `${mins}:${secs.toString().padStart(2, '0')}`;
+                    timerEls.forEach(el => { if (el) { el.textContent = txt;
+                            el.style.display = 'inline'; } });
+                } else {
+                    grantHintFromTimer();
+                }
+            } else {
+                timerEls.forEach(el => { if (el) { el.textContent = '';
+                        el.style.display = 'none'; } });
+            }
+            state.hints = state.hintTimer.count;
+        }
+
+        function grantHintFromTimer() {
+            const now = Date.now();
+            if (state.hintTimer.timerEnd && state.hintTimer.timerEnd <= now) {
+                const elapsed = now - state.hintTimer.timerEnd;
+                const intervals = Math.floor(elapsed / 300000) + 1;
+                let granted = Math.min(intervals, state.hintTimer.maxHints - state.hintTimer.count);
+                if (granted > 0) {
+                    state.hintTimer.count = Math.min(state.hintTimer.count + granted, state.hintTimer.maxHints);
+                    if (state.hintTimer.count < state.hintTimer.maxHints) {
+                        state.hintTimer.timerEnd = now + 300000;
+                    } else {
+                        state.hintTimer.timerEnd = null;
+                    }
+                    saveAll();
+                    showNotification(`💡 +${granted} hint!`, '💡');
+                } else {
+                    if (state.hintTimer.count >= state.hintTimer.maxHints) {
+                        state.hintTimer.timerEnd = null;
+                        saveAll();
+                    } else {
+                        state.hintTimer.timerEnd = now + 300000;
+                        saveAll();
+                    }
+                }
+            }
+            updateHintTimerDisplay();
+        }
+
+        function useHintGlobal() {
+            if (state.hintTimer.count <= 0) return;
+            state.hintTimer.count--;
+            const now = Date.now();
+            if (state.hintTimer.timerEnd === null) {
+                state.hintTimer.timerEnd = now + 300000;
+            } else {
+                const remaining = Math.max(0, state.hintTimer.timerEnd - now);
+                state.hintTimer.timerEnd = now + remaining + 300000;
+            }
+            saveAll();
+            updateHintTimerDisplay();
+            playSound('hint');
+            if (chapterGame.classList.contains('visible')) {
+                revealChapterHint();
+            } else if (game.classList.contains('visible')) {
+                revealWordHint();
+            }
+        }
+
+        // ======================================================================
+        //  NOTIFICATION
+        // ======================================================================
+        let notifTimeout = null;
+
+        function showNotification(text, icon = '🎉') {
+            $('notifText').textContent = text;
+            document.querySelector('#notificationPopup .icon').textContent = icon;
+            const popup = $('notificationPopup');
+            popup.classList.add('show');
+            clearTimeout(notifTimeout);
+            notifTimeout = setTimeout(() => popup.classList.remove('show'), 2500);
+        }
+
+        // ======================================================================
+        //  PARTICLES (enhanced)
+        // ======================================================================
+        function spawnParticles(container, count = 30) {
+            const colors = ['#ffd93d', '#f7931e', '#2ecc71', '#3498db', '#e74c3c', '#9b59b6', '#f1c40f', '#1abc9c', '#e67e22'];
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = 4 + Math.random() * 16;
+                const x = 10 + Math.random() * 80;
+                const y = 10 + Math.random() * 80;
+                const tx = (Math.random() - 0.5) * 300;
+                const ty = (Math.random() - 0.5) * 300 - 120;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const radius = Math.random() > 0.5 ? '50%' : '4px';
+                p.style.cssText =
+                    `width:${size}px;height:${size}px;left:${x}%;top:${y}%;background:${color};--tx:${tx}px;--ty:${ty}px;border-radius:${radius};`;
+                container.appendChild(p);
+                setTimeout(() => p.remove(), 1200);
+            }
+        }
+
+        // ======================================================================
+        //  GAME TEBAK KATA
+        // ======================================================================
+        function shuffleArray(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function getQuestionsForMode(mode) {
+            const bank = WORD_BANK[mode];
+            if (!bank) return [];
+            return shuffleArray([...bank]);
+        }
+
+        function startGame(mode) {
+            state.mode = mode;
+            state.questions = getQuestionsForMode(mode);
+            state.totalQuestions = state.questions.length;
+            state.currentLevel = 0;
+            state.lives = 3;
+            state.isGameOver = false;
+            state.isComplete = false;
+            state.answered = false;
+
+            const completed = state.progress[mode].completed;
+            if (completed > 0 && completed < state.totalQuestions) {
+                state.currentLevel = completed;
+            } else if (completed >= state.totalQuestions) {
+                state.isComplete = true;
+                state.currentLevel = state.totalQuestions - 1;
+            }
+
+            menu.classList.add('hidden');
+            tantanganPage.classList.remove('visible');
+            tantanganPage.style.display = 'none';
+            chapterGame.classList.remove('visible');
+            chapterGame.style.display = 'none';
+            settingsPage.classList.remove('visible');
+            settingsPage.style.display = 'none';
+            leaderboardPage.style.display = 'none';
+            dailyPage.style.display = 'none';
+
+            game.classList.add('visible');
+            game.style.display = 'flex';
+            renderWordQuestion();
+            updateMenuProgress();
+            if (state.isComplete || state.progress[mode].completed >= state.totalQuestions) {
+                showWordCompleteOverlay();
+            }
+            playSound('click');
+        }
+
+        function renderWordQuestion() {
+            const q = state.questions[state.currentLevel];
+            if (!q) return;
+            $('clueText').textContent = '📌 ' + q.clue;
+            $('questionText').textContent = 'Tebak kata ini!';
+
+            const word = q.word.toUpperCase();
+            const pattern = $('answerPattern');
+            pattern.innerHTML = '';
+            const revealCount = Math.max(1, Math.floor(word.length * 0.2));
+            const revealed = [];
+            const indices = Array.from({ length: word.length }, (_, i) => i);
+            shuffleArray(indices);
+            for (let i = 0; i < Math.min(revealCount, word.length); i++) {
+                revealed.push(indices[i]);
+            }
+            for (let i = 0; i < word.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'letter-slot';
+                if (revealed.includes(i)) {
+                    slot.textContent = word[i];
+                    slot.classList.add('revealed');
+                } else {
+                    slot.textContent = '?';
+                    slot.classList.add('hidden');
+                }
+                slot.dataset.index = i;
+                slot.dataset.letter = word[i];
+                pattern.appendChild(slot);
+            }
+
+            $('hintBox').textContent = '';
+            $('hintBox').style.display = 'none';
+            $('answerInput').value = '';
+            $('answerInput').disabled = false;
+            $('submitBtn').disabled = false;
+            $('feedback').textContent = '';
+            $('feedback').className = 'feedback';
+            state.answered = false;
+
+            $('levelBadge').textContent = `🎯 Level ${state.currentLevel+1} / ${state.totalQuestions}`;
+            const pct = state.totalQuestions > 0 ? ((state.currentLevel) / state.totalQuestions) * 100 : 0;
+            $('progressBar').style.width = Math.min(pct, 100) + '%';
+            updateHearts();
+            updateHintTimerDisplay();
+            $('gameOverlay').classList.remove('active');
+            $('answerInput').focus();
+        }
+
+        function updateHearts() {
+            const hearts = '❤️'.repeat(Math.max(0, state.lives)) + '🖤'.repeat(Math.max(0, 3 - state.lives));
+            $('heartsDisplay').textContent = hearts;
+        }
+
+        function revealWordHint() {
+            const slots = document.querySelectorAll('.letter-slot.hidden');
+            if (slots.length === 0) {
+                $('hintBox').textContent = '💡 Semua huruf sudah terbuka!';
+                $('hintBox').style.display = 'block';
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * slots.length);
+            const slot = slots[randomIndex];
+            const letter = slot.dataset.letter;
+            slot.textContent = letter;
+            slot.classList.remove('hidden');
+            slot.classList.add('revealed', 'correct-flash');
+            $('hintBox').textContent = `💡 Petunjuk: "${letter}" terbuka!`;
+            $('hintBox').style.display = 'block';
+            spawnParticles($('particleContainer'), 10);
+            const remaining = document.querySelectorAll('.letter-slot.hidden');
+            if (remaining.length === 0) {
+                $('hintBox').textContent = '💡 Semua huruf terbuka! Sekarang jawab!';
+            }
+        }
+
+        function checkWordAnswer() {
+            if (state.answered || state.isGameOver || state.isComplete) return;
+            const input = $('answerInput').value.trim().toUpperCase();
+            if (!input) {
+                $('feedback').textContent = '✏️ Ketik jawaban terlebih dahulu!';
+                $('feedback').className = 'feedback info';
+                return;
+            }
+            const q = state.questions[state.currentLevel];
+            const correct = q.word.toUpperCase();
+
+            if (input === correct) {
+                state.answered = true;
+                $('feedback').textContent = '✅ Benar!';
+                $('feedback').className = 'feedback correct';
+                const slots = document.querySelectorAll('.letter-slot');
+                slots.forEach((slot, i) => {
+                    slot.textContent = correct[i];
+                    slot.classList.remove('hidden');
+                    slot.classList.add('revealed', 'correct-flash');
+                });
+                spawnParticles($('particleContainer'), 30);
+                playSound('correct');
+
+                const mode = state.mode;
+                const completed = state.progress[mode].completed;
+                if (state.currentLevel + 1 > completed) {
+                    state.progress[mode].completed = state.currentLevel + 1;
+                    saveAll();
+                    updateMenuProgress();
+                    // Update leaderboard
+                    updateLeaderboard(mode, state.progress[mode].completed);
+                }
+                if (state.currentLevel + 1 >= state.totalQuestions) {
+                    state.isComplete = true;
+                    setTimeout(() => showWordCompleteOverlay(), 600);
+                    return;
+                }
+                $('submitBtn').disabled = true;
+                $('answerInput').disabled = true;
+                setTimeout(() => {
+                    state.currentLevel++;
+                    renderWordQuestion();
+                    updateMenuProgress();
+                }, 800);
+            } else {
+                state.lives--;
+                updateHearts();
+                $('heartsDisplay').classList.remove('shake');
+                void $('heartsDisplay').offsetWidth;
+                $('heartsDisplay').classList.add('shake');
+                $('feedback').textContent = `❌ Salah! Jawaban: ${correct}`;
+                $('feedback').className = 'feedback wrong';
+                playSound('wrong');
+                const settings = getSettings();
+                if (settings.vibration && navigator.vibrate) navigator.vibrate(50);
+
+                if (state.lives <= 0) {
+                    state.isGameOver = true;
+                    $('submitBtn').disabled = true;
+                    $('answerInput').disabled = true;
+                    setTimeout(() => showWordGameOverOverlay(), 500);
+                } else {
+                    state.answered = true;
+                    $('submitBtn').disabled = true;
+                    $('answerInput').disabled = true;
+                    setTimeout(() => {
+                        state.answered = false;
+                        $('submitBtn').disabled = false;
+                        $('answerInput').disabled = false;
+                        $('answerInput').focus();
+                        $('feedback').textContent = '';
+                        $('feedback').className = 'feedback';
+                    }, 1200);
+                }
+            }
+        }
+
+        function showWordCompleteOverlay() {
+            const mode = state.mode;
+            const total = state.totalQuestions;
+            $('overlayIcon').textContent = '🏆';
+            $('overlayTitle').textContent = '🎊 Level Selesai!';
+            $('overlaySub').textContent = `Kamu berhasil menyelesaikan semua ${total} soal!`;
+            const next = mode === 'easy' ? 'Medium' : mode === 'medium' ? 'Hard' : '';
+            const nextUnlocked = mode === 'easy' ? state.unlocked.medium : mode === 'medium' ? state.unlocked.hard : false;
+            if (next && nextUnlocked) {
+                $('overlayProgressText').textContent = `🔓 ${next} telah terbuka!`;
+            } else if (next && !nextUnlocked) {
+                $('overlayProgressText').textContent = `🔒 Selesaikan semua level untuk membuka ${next}`;
+            } else {
+                $('overlayProgressText').textContent = '🎉 Kamu telah menyelesaikan semua level!';
+            }
+            $('overlayBtn').textContent = '🏠 Kembali ke Menu';
+            $('overlayBtn').onclick = () => backToMenu();
+            $('overlayMenuBtn').style.display = 'none';
+            $('gameOverlay').classList.add('active');
+            updateMenuProgress();
+            playSound('click');
+        }
+
+        function showWordGameOverOverlay() {
+            $('overlayIcon').textContent = '😢';
+            $('overlayTitle').textContent = 'Game Over!';
+            $('overlaySub').textContent = 'Kamu kehabisan nyawa. Coba lagi!';
+            $('overlayProgressText').textContent = `Level ${state.currentLevel+1} dari ${state.totalQuestions}`;
+            $('overlayBtn').textContent = '🔄 Coba Lagi';
+            $('overlayBtn').onclick = () => {
+                state.lives = 3;
+                state.isGameOver = false;
+                state.answered = false;
+                $('gameOverlay').classList.remove('active');
+                renderWordQuestion();
+                updateHearts();
+                updateHintTimerDisplay();
+                playSound('click');
+            };
+            $('overlayMenuBtn').style.display = 'block';
+            $('overlayMenuBtn').textContent = '🏠 Menu';
+            $('overlayMenuBtn').onclick = () => backToMenu();
+            $('gameOverlay').classList.add('active');
+        }
+
+        // ======================================================================
+        //  LEADERBOARD
+        // ======================================================================
+        function updateLeaderboard(mode, score) {
+            const entry = {
+                mode: mode,
+                score: score,
+                date: new Date().toLocaleDateString()
+            };
+            state.leaderboard.push(entry);
+            state.leaderboard.sort((a, b) => b.score - a.score);
+            if (state.leaderboard.length > 20) state.leaderboard = state.leaderboard.slice(0, 20);
+            saveAll();
+        }
+
+        function renderLeaderboard() {
+            const container = $('leaderboardList');
+            if (state.leaderboard.length === 0) {
+                container.innerHTML =
+                    '<p style="color:rgba(255,255,255,0.4); text-align:center; padding:20px;">Belum ada skor. Mainkan game!</p>';
+                return;
+            }
+            let html = '<table style="width:100%; border-collapse:collapse; color:#fff; font-size:14px;">';
+            html +=
+                '<tr style="border-bottom:1px solid rgba(255,255,255,0.08);"><th style="padding:6px 8px; text-align:left;">#</th><th style="padding:6px 8px; text-align:left;">Mode</th><th style="padding:6px 8px; text-align:right;">Skor</th><th style="padding:6px 8px; text-align:right;">Tanggal</th></tr>';
+            state.leaderboard.forEach((item, index) => {
+                const medal = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : `${index+1}.`;
+                html +=
+                    `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);"><td style="padding:6px 8px;">${medal}</td><td style="padding:6px 8px;">${item.mode}</td><td style="padding:6px 8px; text-align:right;">${item.score}</td><td style="padding:6px 8px; text-align:right; color:rgba(255,255,255,0.4);">${item.date}</td></tr>`;
+            });
+            html += '</table>';
+            container.innerHTML = html;
+        }
+
+        // ======================================================================
+        //  MODE HARIAN
+        // ======================================================================
+        function getDailyQuestion() {
+            const today = new Date().toDateString();
+            const seed = today.split(' ').join('');
+            let hash = 0;
+            for (let i = 0; i < seed.length; i++) {
+                hash = (hash * 31 + seed.charCodeAt(i)) & 0xFFFFFFFF;
+            }
+            const allQuestions = [...WORD_BANK.easy, ...WORD_BANK.medium, ...WORD_BANK.hard];
+            const index = Math.abs(hash) % allQuestions.length;
+            return allQuestions[index];
+        }
+
+        function initDaily() {
+            const q = getDailyQuestion();
+            const today = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long',
+                year: 'numeric' });
+            $('dailyDate').textContent = `📅 ${today}`;
+            $('dailyClue').textContent = `📌 ${q.clue}`;
+            $('dailyAnswerInput').value = '';
+            $('dailyAnswerInput').disabled = false;
+            $('dailySubmitBtn').disabled = false;
+            $('dailyFeedback').textContent = '';
+            $('dailyFeedback').className = '';
+            state.dailyAnswered = false;
+            state.dailyCorrect = false;
+
+            // History
+            const history = state.dailyHistory || {};
+            const keys = Object.keys(history).sort();
+            let historyHtml = '<p style="font-weight:600; margin-top:10px;">📜 Riwayat Harian</p>';
+            if (keys.length === 0) {
+                historyHtml += '<p style="color:rgba(255,255,255,0.3); font-size:13px;">Belum ada riwayat.</p>';
+            } else {
+                keys.slice(-5).reverse().forEach(date => {
+                    const status = history[date] ? '✅' : '❌';
+                    historyHtml += `<div style="display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.04);">${status} ${date}</div>`;
+                });
+            }
+            $('dailyHistory').innerHTML = historyHtml;
+        }
+
+        function checkDailyAnswer() {
+            if (state.dailyAnswered) return;
+            const input = $('dailyAnswerInput').value.trim().toUpperCase();
+            if (!input) {
+                $('dailyFeedback').textContent = '✏️ Ketik jawaban terlebih dahulu!';
+                $('dailyFeedback').className = 'feedback info';
+                return;
+            }
+            const q = getDailyQuestion();
+            const correct = q.word.toUpperCase();
+            const today = new Date().toDateString();
+            if (!state.dailyHistory) state.dailyHistory = {};
+
+            if (input === correct) {
+                state.dailyAnswered = true;
+                state.dailyCorrect = true;
+                state.dailyHistory[today] = true;
+                saveAll();
+                $('dailyFeedback').textContent = '✅ Benar! Kamu berhasil menjawab soal hari ini! 🎉';
+                $('dailyFeedback').className = 'feedback correct';
+                $('dailyAnswerInput').disabled = true;
+                $('dailySubmitBtn').disabled = true;
+                playSound('correct');
+                spawnParticles(document.getElementById('dailyQuestion'), 20);
+                showNotification('🎉 Jawaban harian benar!', '🎉');
+                // Update leaderboard daily
+                updateLeaderboard('daily', (state.dailyHistory ? Object.values(state.dailyHistory).filter(v => v === true)
+                    .length : 0));
+                renderLeaderboard();
+                initDaily();
+            } else {
+                state.dailyHistory[today] = false;
+                saveAll();
+                $('dailyFeedback').textContent = `❌ Salah! Jawaban: ${correct}`;
+                $('dailyFeedback').className = 'feedback wrong';
+                playSound('wrong');
+                state.dailyAnswered = true;
+                $('dailyAnswerInput').disabled = true;
+                $('dailySubmitBtn').disabled = true;
+                setTimeout(() => {
+                    state.dailyAnswered = false;
+                    $('dailyAnswerInput').disabled = false;
+                    $('dailySubmitBtn').disabled = false;
+                    $('dailyAnswerInput').focus();
+                    $('dailyFeedback').textContent = '';
+                    $('dailyFeedback').className = '';
+                    initDaily();
+                }, 2000);
+            }
+        }
+
+        // ======================================================================
+        //  CHAPTER SYSTEM
+        // ======================================================================
+
+        function initChapterQuestions(chapterId) {
+            const raw = CHAPTER_QUESTIONS[chapterId];
+            if (!raw) return;
+            const shuffled = shuffleArray([...raw]);
+            state.chapters[chapterId].questions = shuffled;
+            state.chapters[chapterId].total = shuffled.length;
+            state.chapters[chapterId].correct = 0;
+            state.chapters[chapterId].current = 0;
+            state.chapters[chapterId].lives = 3;
+            state.chapters[chapterId].hints = 3;
+            state.chapters[chapterId].finished = false;
+            saveAll();
+        }
+
+        function renderChapterList() {
+            const container = $('chapterList');
+            container.innerHTML = '';
+            const names = ['Beginner', 'Easy', 'Medium', 'Medium Pro', 'Hardcore'];
+            const colors = ['🟢', '🟢', '🟡', '🟡', '🔴'];
+            const totals = [30, 30, 30, 45, 45];
+
+            for (let i = 1; i <= 5; i++) {
+                const ch = state.chapters[i];
+                const total = totals[i - 1];
+                const correct = ch.correct || 0;
+                const finished = ch.finished || false;
+                const unlocked = ch.unlocked || false;
+                const progress = total > 0 ? Math.min(correct / total, 1) : 0;
+                const starPercent = progress * 100;
+
+                const card = document.createElement('div');
+                card.className = 'chapter-card';
+
+                const info = document.createElement('div');
+                info.className = 'info';
+
+                const title = document.createElement('div');
+                title.className = 'chapter-title';
+                title.innerHTML = `${colors[i-1]} CHAPTER ${i}`;
+                info.appendChild(title);
+
+                const desc = document.createElement('div');
+                desc.className = 'chapter-desc';
+                desc.textContent = names[i - 1] + (finished ? ' ✅ Selesai' : '');
+                info.appendChild(desc);
+
+                const stars = document.createElement('div');
+                stars.className = 'chapter-stars';
+                const bg = document.createElement('div');
+                bg.className = 'star-bg';
+                bg.innerHTML = '☆☆☆☆☆'.split('').map(() => '<span>☆</span>').join('');
+                const fill = document.createElement('div');
+                fill.className = 'star-fill';
+                fill.style.width = Math.min(starPercent, 100) + '%';
+                fill.innerHTML = '★★★★★'.split('').map(() => '<span>★</span>').join('');
+                stars.appendChild(bg);
+                stars.appendChild(fill);
+                info.appendChild(stars);
+
+                card.appendChild(info);
+
+                const btn = document.createElement('button');
+                btn.className = 'chapter-btn';
+                if (finished) {
+                    btn.textContent = '✅ Selesai';
+                    btn.classList.add('complete');
+                    btn.disabled = true;
+                } else if (unlocked) {
+                    btn.textContent = '▶ PLAY';
+                    btn.classList.add('play');
+                    btn.addEventListener('click', () => openChapter(i));
+                } else {
+                    btn.textContent = '🔒 LOCKED';
+                    btn.classList.add('locked');
+                }
+                card.appendChild(btn);
+                container.appendChild(card);
+            }
+        }
+
+        function openChapter(chapterId) {
+            const ch = state.chapters[chapterId];
+            if (!ch.unlocked) { showNotification('🔒 Chapter ini terkunci!', '🔒'); return; }
+            if (ch.finished) { showNotification('✅ Chapter ini sudah selesai!', '✅'); return; }
+            if (!ch.questions || ch.questions.length === 0) {
+                initChapterQuestions(chapterId);
+            }
+            if (ch.lives <= 0) {
+                ch.lives = 3;
+                ch.hints = 3;
+                ch.correct = 0;
+                ch.current = 0;
+                const raw = CHAPTER_QUESTIONS[chapterId];
+                ch.questions = shuffleArray([...raw]);
+                saveAll();
+            }
+            state.currentChapter = chapterId;
+            state.chapterAnswered = false;
+            state.chapterGameOver = false;
+            state.chapterComplete = false;
+
+            menu.classList.add('hidden');
+            tantanganPage.classList.remove('visible');
+            tantanganPage.style.display = 'none';
+            game.classList.remove('visible');
+            game.style.display = 'none';
+            settingsPage.classList.remove('visible');
+            settingsPage.style.display = 'none';
+            leaderboardPage.style.display = 'none';
+            dailyPage.style.display = 'none';
+
+            chapterGame.classList.add('visible');
+            chapterGame.style.display = 'flex';
+            $('cgChapterName').textContent = `Chapter ${chapterId}`;
+
+            updateChapterUI();
+            renderChapterQuestion();
+            playSound('click');
+        }
+
+        function renderChapterQuestion() {
+            const ch = state.chapters[state.currentChapter];
+            if (!ch) return;
+            if (ch.finished) { showChapterComplete(); return; }
+            if (ch.lives <= 0) { showChapterGameOver(); return; }
+            const idx = ch.current;
+            const questions = ch.questions;
+            if (idx >= questions.length) {
+                ch.finished = true;
+                ch.correct = questions.length;
+                saveAll();
+                showChapterComplete();
+                return;
+            }
+            const q = questions[idx];
+            $('cgQNumber').textContent = `Soal #${idx+1}`;
+            $('cgQText').textContent = q.question;
+            $('cgHintBox').textContent = '';
+            $('cgHintBox').style.display = 'none';
+            $('cgAnswerInput').value = '';
+            $('cgAnswerInput').disabled = false;
+            $('cgSubmitBtn').disabled = false;
+            $('cgFeedback').textContent = '';
+            $('cgFeedback').className = 'feedback';
+            state.chapterAnswered = false;
+            $('cgOverlay').classList.remove('active');
+            updateChapterUI();
+            $('cgProgress').textContent = `Soal ${idx+1} / ${questions.length}`;
+            $('cgAnswerInput').focus();
+        }
+
+        function updateChapterUI() {
+            const ch = state.chapters[state.currentChapter];
+            if (!ch) return;
+            $('cgHearts').textContent = '❤️'.repeat(Math.max(0, ch.lives)) + '🖤'.repeat(Math.max(0, 3 - ch.lives));
+            $('cgHintCount').textContent = ch.hints;
+            $('cgHintBtnBadge').textContent = ch.hints;
+            $('cgHintBtn').disabled = ch.hints <= 0 || state.chapterAnswered || state.chapterGameOver || state
+            .chapterComplete;
+            updateHintTimerDisplay();
+        }
+
+        function answerChapter() {
+            const ch = state.chapters[state.currentChapter];
+            if (!ch) return;
+            if (state.chapterAnswered || state.chapterGameOver || state.chapterComplete) return;
+            const input = $('cgAnswerInput').value.trim();
+            if (!input) {
+                $('cgFeedback').textContent = '✏️ Ketik jawaban terlebih dahulu!';
+                $('cgFeedback').className = 'feedback info';
+                return;
+            }
+            const q = ch.questions[ch.current];
+            const correct = q.answer.toLowerCase().trim();
+            const userAnswer = input.toLowerCase().trim();
+            if (userAnswer === correct) {
+                state.chapterAnswered = true;
+                $('cgFeedback').textContent = '✅ Benar!';
+                $('cgFeedback').className = 'feedback correct';
+                ch.correct++;
+                saveAll();
+                playSound('correct');
+                spawnParticles(document.querySelector('#chapterGame .cg-question-box'), 20);
+                $('cgSubmitBtn').disabled = true;
+                $('cgAnswerInput').disabled = true;
+                setTimeout(() => {
+                    ch.current++;
+                    renderChapterQuestion();
+                    renderChapterList();
+                }, 800);
+            } else {
+                ch.lives--;
+                updateChapterUI();
+                $('cgFeedback').textContent = `❌ Salah! Jawaban: ${q.answer}`;
+                $('cgFeedback').className = 'feedback wrong';
+                playSound('wrong');
+                const settings = getSettings();
+                if (settings.vibration && navigator.vibrate) navigator.vibrate(50);
+                if (ch.lives <= 0) {
+                    state.chapterGameOver = true;
+                    $('cgSubmitBtn').disabled = true;
+                    $('cgAnswerInput').disabled = true;
+                    setTimeout(() => showChapterGameOver(), 500);
+                } else {
+                    state.chapterAnswered = true;
+                    $('cgSubmitBtn').disabled = true;
+                    $('cgAnswerInput').disabled = true;
+                    setTimeout(() => {
+                        state.chapterAnswered = false;
+                        $('cgSubmitBtn').disabled = false;
+                        $('cgAnswerInput').disabled = false;
+                        $('cgAnswerInput').focus();
+                        $('cgFeedback').textContent = '';
+                        $('cgFeedback').className = 'feedback';
+                    }, 1200);
+                }
+            }
+        }
+
+        function revealChapterHint() {
+            const ch = state.chapters[state.currentChapter];
+            if (!ch) return;
+            if (ch.hints <= 0 || state.chapterAnswered || state.chapterGameOver || state.chapterComplete) return;
+            ch.hints--;
+            updateChapterUI();
+            const q = ch.questions[ch.current];
+            if (q.hint) {
+                $('cgHintBox').textContent = '💡 ' + q.hint;
+                $('cgHintBox').style.display = 'block';
+            } else {
+                $('cgHintBox').textContent = '💡 Tidak ada petunjuk tambahan.';
+                $('cgHintBox').style.display = 'block';
+            }
+            saveAll();
+            const settings = getSettings();
+            if (settings.vibration && navigator.vibrate) navigator.vibrate(30);
+        }
+
+        function showChapterComplete() {
+            const ch = state.chapters[state.currentChapter];
+            if (!ch) return;
+            ch.finished = true;
+            saveAll();
+            $('cgOverlayIcon').textContent = '🏆';
+            $('cgOverlayTitle').textContent = '🎊 Chapter Selesai!';
+            $('cgOverlaySub').textContent = `Kamu berhasil menyelesaikan semua ${ch.questions.length} soal!`;
+            $('cgOverlayBtn').textContent = '📋 Kembali ke Chapter';
+            $('cgOverlayBtn').onclick = () => backToTantangan();
+            $('cgOverlayMenuBtn').style.display = 'none';
+            $('cgOverlay').classList.add('active');
+            renderChapterList();
+            const next = state.currentChapter + 1;
+            if (next <= 5 && !state.chapters[next].unlocked) {
+                state.chapters[next].unlocked = true;
+                saveAll();
+                showNotification(`🔓 Chapter ${next} telah terbuka!`, '🔓');
+                renderChapterList();
+            }
+            playSound('correct');
+        }
+
+        function showChapterGameOver() {
+            $('cgOverlayIcon').textContent = '😢';
+            $('cgOverlayTitle').textContent = 'Game Over!';
+            $('cgOverlaySub').textContent = 'Kamu kehabisan nyawa. Coba lagi!';
+            $('cgOverlayBtn').textContent = '🔄 Coba Lagi';
+            $('cgOverlayBtn').onclick = () => {
+                const ch = state.chapters[state.currentChapter];
+                ch.lives = 3;
+                ch.hints = 3;
+                ch.correct = 0;
+                ch.current = 0;
+                ch.finished = false;
+                const raw = CHAPTER_QUESTIONS[state.currentChapter];
+                ch.questions = shuffleArray([...raw]);
+                saveAll();
+                $('cgOverlay').classList.remove('active');
+                state.chapterGameOver = false;
+                renderChapterQuestion();
+                renderChapterList();
+                playSound('click');
+            };
+            $('cgOverlayMenuBtn').style.display = 'block';
+            $('cgOverlayMenuBtn').textContent = '📋 Chapter';
+            $('cgOverlayMenuBtn').onclick = () => backToTantangan();
+            $('cgOverlay').classList.add('active');
+        }
+
+        function backToTantangan() {
+            chapterGame.classList.remove('visible');
+            chapterGame.style.display = 'none';
+            $('cgOverlay').classList.remove('active');
+            tantanganPage.classList.add('visible');
+            tantanganPage.style.display = 'flex';
+            renderChapterList();
+        }
+
+        // ======================================================================
+        //  NAVIGASI
+        // ======================================================================
+        function backToMenu() {
+            game.classList.remove('visible');
+            game.style.display = 'none';
+            chapterGame.classList.remove('visible');
+            chapterGame.style.display = 'none';
+            tantanganPage.classList.remove('visible');
+            tantanganPage.style.display = 'none';
+            settingsPage.classList.remove('visible');
+            settingsPage.style.display = 'none';
+            leaderboardPage.style.display = 'none';
+            dailyPage.style.display = 'none';
+            menu.classList.remove('hidden');
+            updateMenuProgress();
+            $('notificationPopup').classList.remove('show');
+            $('gameOverlay').classList.remove('active');
+            $('cgOverlay').classList.remove('active');
+        }
+
+        function goToTantangan() {
+            menu.classList.add('hidden');
+            game.classList.remove('visible');
+            game.style.display = 'none';
+            settingsPage.classList.remove('visible');
+            settingsPage.style.display = 'none';
+            chapterGame.classList.remove('visible');
+            chapterGame.style.display = 'none';
+            leaderboardPage.style.display = 'none';
+            dailyPage.style.display = 'none';
+            tantanganPage.classList.add('visible');
+            tantanganPage.style.display = 'flex';
+            renderChapterList();
+            playSound('click');
+        }
+
+        function goToSettings() {
+            menu.classList.add('hidden');
+            game.classList.remove('visible');
+            game.style.display = 'none';
+            tantanganPage.classList.remove('visible');
+            tantanganPage.style.display = 'none';
+            chapterGame.classList.remove('visible');
+            chapterGame.style.display = 'none';
+            leaderboardPage.style.display = 'none';
+            dailyPage.style.display = 'none';
+            settingsPage.classList.add('visible');
+            settingsPage.style.display = 'flex';
+            playSound('click');
+        }
+
+        function goToLeaderboard() {
+            menu.classList.add('hidden');
+            game.classList.remove('visible');
+            game.style.display = 'none';
+            tantanganPage.classList.remove('visible');
+            tantanganPage.style.display = 'none';
+            chapterGame.classList.remove('visible');
+            chapterGame.style.display = 'none';
+            settingsPage.classList.remove('visible');
+            settingsPage.style.display = 'none';
+            dailyPage.style.display = 'none';
+            leaderboardPage.style.display = 'flex';
+            renderLeaderboard();
+            playSound('click');
+        }
+
+        function goToDaily() {
+            menu.classList.add('hidden');
+            game.classList.remove('visible');
+            game.style.display = 'none';
+            tantanganPage.classList.remove('visible');
+            tantanganPage.style.display = 'none';
+            chapterGame.classList.remove('visible');
+            chapterGame.style.display = 'none';
+            settingsPage.classList.remove('visible');
+            settingsPage.style.display = 'none';
+            leaderboardPage.style.display = 'none';
+            dailyPage.style.display = 'flex';
+            initDaily();
+            playSound('click');
+        }
+
+        // ======================================================================
+        //  UPDATE MENU PROGRESS & ICON
+        // ======================================================================
+        function updateMenuProgress() {
+            const e = state.progress.easy;
+            const m = state.progress.medium;
+            const h = state.progress.hard;
+            $('easyProgress').textContent = `${e.completed}/${e.total}`;
+            $('mediumProgress').textContent = `${m.completed}/${m.total}`;
+            $('hardProgress').textContent = `${h.completed}/${h.total}`;
+
+            if (e.completed >= e.total && !state.unlocked.medium) {
+                state.unlocked.medium = true;
+                saveAll();
+                showNotification('🔓 Medium Telah Terbuka!', '🔓');
+            }
+            if (m.completed >= m.total && !state.unlocked.hard) {
+                state.unlocked.hard = true;
+                saveAll();
+                showNotification('🔓 Hard Telah Terbuka!', '🔓');
+            }
+
+            updateMenuButton('medium', state.unlocked.medium, m.completed, m.total);
+            updateMenuButton('hard', state.unlocked.hard, h.completed, h.total);
+
+            $('easyIcon').textContent = '🟢';
+            $('menuEasy').classList.remove('disabled');
+            $('easyStatus').textContent = e.completed >= e.total ? '✅' : '▶';
+        }
+
+        function updateMenuButton(mode, unlocked, completed, total) {
+            const btn = mode === 'medium' ? $('menuMedium') : $('menuHard');
+            const statusEl = mode === 'medium' ? $('mediumStatus') : $('hardStatus');
+            const iconEl = mode === 'medium' ? $('mediumIcon') : $('hardIcon');
+
+            if (unlocked) {
+                btn.classList.remove('disabled');
+                btn.style.pointerEvents = 'auto';
+                btn.style.opacity = '1';
+                iconEl.textContent = mode === 'medium' ? '🟡' : '🔴';
+                statusEl.textContent = completed >= total ? '✅' : '▶';
+            } else {
+                btn.classList.add('disabled');
+                btn.style.pointerEvents = 'none';
+                btn.style.opacity = '0.5';
+                iconEl.textContent = '🔒';
+                statusEl.textContent = '🔒';
+            }
+        }
+
+        // ======================================================================
+        //  REPORT MODAL
+        // ======================================================================
+        function openReportModal() {
+            reportModal.classList.add('visible');
+        }
+
+        function closeReportModal() {
+            reportModal.classList.remove('visible');
+        }
+
+        function copyPhoneNumber() {
+            const phone = '0858-7631-1950';
+            navigator.clipboard.writeText(phone).then(() => {
+                showNotification('📋 Nomor berhasil disalin!', '✅');
+            }).catch(() => {
+                // Fallback
+                const input = document.createElement('input');
+                input.value = phone;
+                document.body.appendChild(input);
+                input.select();
+                document.execCommand('copy');
+                document.body.removeChild(input);
+                showNotification('📋 Nomor berhasil disalin!', '✅');
+            });
+        }
+
+        // ======================================================================
+        //  EVENT LISTENERS
+        // ======================================================================
+
+        // Menu
+        $('menuEasy').addEventListener('click', () => startGame('easy'));
+        $('menuMedium').addEventListener('click', () => {
+            if (state.unlocked.medium) startGame('medium');
+            else showNotification('🔒 Selesaikan Easy dulu!', '🔒');
+        });
+        $('menuHard').addEventListener('click', () => {
+            if (state.unlocked.hard) startGame('hard');
+            else showNotification('🔒 Selesaikan Medium dulu!', '🔒');
+        });
+
+        $('menuTantangan').addEventListener('click', goToTantangan);
+        $('menuPengaturan').addEventListener('click', goToSettings);
+        $('menuLeaderboard').addEventListener('click', goToLeaderboard);
+        $('menuDaily').addEventListener('click', goToDaily);
+
+        // Settings
+        $('btnCloseSettings').addEventListener('click', () => {
+            const settings = getSettings();
+            localStorage.setItem('letsgoo_settings', JSON.stringify(settings));
+            settingsPage.classList.remove('visible');
+            settingsPage.style.display = 'none';
+            menu.classList.remove('hidden');
+            playSound('click');
+        });
+
+        $('toggleSound').addEventListener('click', function() {
+            this.classList.toggle('active');
+            const settings = getSettings();
+            localStorage.setItem('letsgoo_settings', JSON.stringify(settings));
+            playSound('click');
+        });
+        $('toggleTheme').addEventListener('click', function() {
+            this.classList.toggle('active');
+            const settings = getSettings();
+            localStorage.setItem('letsgoo_settings', JSON.stringify(settings));
+            if (settings.theme) {
+                document.body.classList.remove('theme-light', 'theme-blue', 'theme-green', 'theme-rose');
+            } else {
+                document.body.classList.add('theme-light');
+            }
+            playSound('click');
+        });
+        $('toggleVibration').addEventListener('click', function() {
+            this.classList.toggle('active');
+            const settings = getSettings();
+            localStorage.setItem('letsgoo_settings', JSON.stringify(settings));
+            if (settings.vibration && navigator.vibrate) navigator.vibrate(10);
+            playSound('click');
+        });
+
+        // Tema warna
+        document.querySelectorAll('.theme-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
+                this.classList.add('active');
+                const theme = this.dataset.theme;
+                const settings = getSettings();
+                settings.colorTheme = theme;
+                localStorage.setItem('letsgoo_settings', JSON.stringify(settings));
+                document.body.className = document.body.className.split(' ').filter(c => !c.startsWith(
+                    'theme-')).join(' ');
+                document.body.classList.add('theme-' + theme);
+                playSound('click');
+            });
+        });
+
+        $('btnResetProgress').addEventListener('click', () => {
+            if (confirm('Yakin ingin mereset semua progress? Data tidak dapat dikembalikan!')) {
+                state.progress.easy.completed = 0;
+                state.progress.medium.completed = 0;
+                state.progress.hard.completed = 0;
+                state.unlocked.easy = true;
+                state.unlocked.medium = false;
+                state.unlocked.hard = false;
+                state.hintTimer.count = 3;
+                state.hintTimer.timerEnd = null;
+                for (let i = 1; i <= 5; i++) {
+                    state.chapters[i].unlocked = (i === 1);
+                    state.chapters[i].correct = 0;
+                    state.chapters[i].finished = false;
+                    state.chapters[i].current = 0;
+                    state.chapters[i].lives = 3;
+                    state.chapters[i].hints = 3;
+                    state.chapters[i].questions = [];
+                }
+                state.leaderboard = [];
+                state.dailyHistory = {};
+                saveAll();
+                updateMenuProgress();
+                updateHintTimerDisplay();
+                showNotification('🗑️ Progress telah direset', '🗑️');
+                settingsPage.classList.remove('visible');
+                settingsPage.style.display = 'none';
+                menu.classList.remove('hidden');
+                renderChapterList();
+                playSound('click');
+            }
+        });
+
+        // Game tebak kata
+        $('btnBackGame').addEventListener('click', () => {
+            if (state.isGameOver) return;
+            if (confirm('Kembali ke menu? Progress akan tersimpan.')) {
+                backToMenu();
+                playSound('click');
+            }
+        });
+        $('submitBtn').addEventListener('click', checkWordAnswer);
+        $('answerInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault();
+                checkWordAnswer(); }
+        });
+        $('hintBtn').addEventListener('click', () => useHintGlobal());
+
+        // Chapter
+        $('btnBackToMenuFromTantangan').addEventListener('click', () => { backToMenu();
+            playSound('click'); });
+        $('btnBackFromChapter').addEventListener('click', () => { backToTantangan();
+            playSound('click'); });
+        $('cgSubmitBtn').addEventListener('click', answerChapter);
+        $('cgAnswerInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault();
+                answerChapter(); }
+        });
+        $('cgHintBtn').addEventListener('click', () => useHintGlobal());
+
+        // Leaderboard & Daily
+        $('btnBackFromLeaderboard').addEventListener('click', () => { backToMenu();
+            playSound('click'); });
+        $('btnBackFromDaily').addEventListener('click', () => { backToMenu();
+            playSound('click'); });
+        $('dailySubmitBtn').addEventListener('click', checkDailyAnswer);
+        $('dailyAnswerInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault();
+                checkDailyAnswer(); }
+        });
+
+        // Report Modal
+        $('openReportModal').addEventListener('click', openReportModal);
+        $('closeReportModal').addEventListener('click', closeReportModal);
+        reportModal.addEventListener('click', (e) => {
+            if (e.target === reportModal) closeReportModal();
+        });
+        $('copyPhoneBtn').addEventListener('click', copyPhoneNumber);
+
+        // ======================================================================
+        //  INIT
+        // ======================================================================
+        function init() {
+            loadAll();
+            state.chapters[1].unlocked = true;
+            for (let i = 1; i < 5; i++) {
+                if (state.chapters[i].finished) {
+                    state.chapters[i + 1].unlocked = true;
+                }
+            }
+            saveAll();
+
+            updateMenuProgress();
+            updateHintTimerDisplay();
+            renderChapterList();
+
+            if (!hintTimerInterval) {
+                hintTimerInterval = setInterval(() => {
+                    updateHintTimerDisplay();
+                    if (state.hintTimer.timerEnd) {
+                        const now = Date.now();
+                        if (state.hintTimer.timerEnd <= now) {
+                            grantHintFromTimer();
+                        }
+                    }
+                }, 1000);
+            }
+
+            menu.classList.remove('hidden');
+            game.style.display = 'none';
+            settingsPage.style.display = 'none';
+            tantanganPage.style.display = 'none';
+            chapterGame.style.display = 'none';
+            leaderboardPage.style.display = 'none';
+            dailyPage.style.display = 'none';
+            loadingOverlay.classList.remove('active');
+
+            if (state.progress.easy.completed > 0 && state.progress.easy.completed < 30) {
+                showNotification(`📚 Easy: ${state.progress.easy.completed}/30`, '📚');
+            } else if (state.progress.easy.completed >= 30) {
+                showNotification('🎉 Easy selesai! Medium terbuka!', '🎉');
+            }
+        }
+
+        init();
+    </script>
 </body>
 </html>
